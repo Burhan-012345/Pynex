@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to Pynex!</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333333;
+        background-color: #f6f9fc;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background: linear-gradient(135deg, #4cc9f0 0%, #4361ee 100%);
+        padding: 40px 20px;
+        text-align: center;
+        color: white;
+      }
+      .logo {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .welcome-title {
+        font-size: 24px;
+        margin: 15px 0 5px 0;
+        font-weight: 600;
+      }
+      .welcome-subtitle {
+        font-size: 16px;
+        opacity: 0.9;
+        margin: 0;
+      }
+      .content {
+        padding: 30px 25px;
+      }
+      .greeting {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #2d3748;
+        text-align: center;
+      }
+      .message {
+        color: #4a5568;
+        margin-bottom: 25px;
+        font-size: 15px;
+        text-align: center;
+      }
+      .welcome-icon {
+        font-size: 48px;
+        text-align: center;
+        margin: 20px 0;
+      }
+      .features {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 30px 0;
+      }
+      .feature {
+        text-align: center;
+        padding: 20px 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+        transition: transform 0.2s ease;
+      }
+      .feature:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .feature-icon {
+        font-size: 32px;
+        margin-bottom: 12px;
+      }
+      .feature-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #2d3748;
+        font-size: 15px;
+      }
+      .feature-text {
+        font-size: 13px;
+        color: #718096;
+        line-height: 1.4;
+      }
+      .cta-section {
+        text-align: center;
+        margin: 35px 0;
+        padding: 25px;
+        background: linear-gradient(135deg, #f0f9ff 0%, #e6f3ff 100%);
+        border-radius: 10px;
+        border: 1px solid #bee3f8;
+      }
+      .cta-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #4cc9f0 0%, #4361ee 100%);
+        color: white;
+        padding: 14px 35px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 16px;
+        margin: 15px 0;
+        transition: transform 0.3s ease;
+      }
+      .cta-button:hover {
+        transform: translateY(-2px);
+      }
+      .quick-tips {
+        background-color: #f0fff4;
+        border: 1px solid #c6f6d5;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+      }
+      .tips-title {
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #2f855a;
+        font-size: 16px;
+      }
+      .tip-item {
+        margin: 8px 0;
+        color: #4a5568;
+        font-size: 14px;
+        padding-left: 15px;
+        position: relative;
+      }
+      .tip-item:before {
+        content: "•";
+        color: #48bb78;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+      }
+      .profile-cta {
+        background-color: #faf5ff;
+        border: 1px solid #e9d8fd;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        text-align: center;
+      }
+      .footer {
+        background-color: #f8f9fa;
+        padding: 25px;
+        text-align: center;
+        color: #718096;
+        font-size: 13px;
+        border-top: 1px solid #e2e8f0;
+      }
+      .footer-links {
+        margin: 15px 0;
+      }
+      .footer-links a {
+        color: #718096;
+        text-decoration: none;
+        margin: 0 10px;
+        font-size: 13px;
+      }
+      @media (max-width: 480px) {
+        .container {
+          margin: 10px;
+          border-radius: 8px;
+        }
+        .content {
+          padding: 20px 15px;
+        }
+        .features {
+          grid-template-columns: 1fr;
+        }
+        .welcome-icon {
+          font-size: 40px;
+        }
+        .cta-button {
+          display: block;
+          text-align: center;
+          margin: 20px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="logo">Pynex</div>
+        <h1 class="welcome-title">Welcome to Pynex!</h1>
+        <p class="welcome-subtitle">
+          Your journey to better expense tracking starts now
+        </p>
+      </div>
+
+      <div class="content">
+        <div class="welcome-icon">🎉</div>
+
+        <div class="greeting">Hello {{ name }},</div>
+
+        <div class="message">
+          Welcome to Pynex Expense Tracker! We're thrilled to have you on board
+          and can't wait to help you take control of your finances. Your account
+          has been successfully verified.
+        </div>
+
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">💰</div>
+            <div class="feature-title">Track Expenses</div>
+            <div class="feature-text">
+              Easily record and categorize your daily expenses
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">📊</div>
+            <div class="feature-title">View Reports</div>
+            <div class="feature-text">
+              Get insights with beautiful charts and analytics
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🎯</div>
+            <div class="feature-title">Set Budgets</div>
+            <div class="feature-text">
+              Create and manage your spending budgets
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">📱</div>
+            <div class="feature-title">Anywhere Access</div>
+            <div class="feature-text">
+              Access your data from any device, anytime
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-section">
+          <h3 style="margin: 0 0 15px 0; color: #2d3748">
+            Ready to Get Started?
+          </h3>
+          <p style="margin: 0 0 20px 0; color: #4a5568">
+            Start tracking your first expense and discover how Pynex can help
+            you achieve your financial goals.
+          </p>
+          <a href="{{ dashboard_link }}" class="cta-button">Go to Dashboard</a>
+        </div>
+
+        <div class="profile-cta">
+          <h4 style="margin: 0 0 12px 0; color: #6b46c1">
+            Complete Your Profile
+          </h4>
+          <p style="margin: 0 0 15px 0; color: #4a5568; font-size: 14px">
+            Personalize your experience by adding your profile picture and
+            preferences.
+          </p>
+          <a
+            href="{{ profile_link }}"
+            style="
+              color: #6b46c1;
+              text-decoration: none;
+              font-weight: 600;
+              font-size: 14px;
+            "
+          >
+            Update Profile →
+          </a>
+        </div>
+
+        <div class="quick-tips">
+          <div class="tips-title">💡 Quick Tips to Get Started:</div>
+          <div class="tip-item">
+            Add your recurring expenses first (rent, utilities, subscriptions)
+          </div>
+          <div class="tip-item">
+            Categorize each expense for better insights and reporting
+          </div>
+          <div class="tip-item">
+            Set monthly budgets for different spending categories
+          </div>
+          <div class="tip-item">
+            Review your spending patterns weekly to stay on track
+          </div>
+          <div class="tip-item">
+            Enable notifications to get alerts about your spending
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="footer-links">
+          <a href="{{ help_link }}">Help Center</a>
+          <a href="{{ privacy_link }}">Privacy Policy</a>
+          <a href="{{ unsubscribe_link }}">Unsubscribe</a>
+        </div>
+        <p style="margin: 10px 0">
+          &copy; {{ current_year }} Pynex Expense Tracker. All rights reserved.
+        </p>
+        <p style="margin: 5px 0; font-size: 12px; color: #a0aec0">
+          This email was sent to {{ email }} as part of your Pynex account.
+        </p>
+        <p style="margin: 5px 0; font-size: 12px; color: #a0aec0">
+          If you have any questions, feel free to reply to this email or visit
+          our help center.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

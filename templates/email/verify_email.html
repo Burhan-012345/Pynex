@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verify Your Email - Pynex</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333333;
+        background-color: #f6f9fc;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        padding: 30px 20px;
+        text-align: center;
+        color: white;
+      }
+      .logo {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .logo-subtitle {
+        font-size: 16px;
+        opacity: 0.9;
+        margin: 0;
+      }
+      .content {
+        padding: 30px 25px;
+      }
+      .greeting {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #2d3748;
+      }
+      .message {
+        color: #4a5568;
+        margin-bottom: 25px;
+        font-size: 15px;
+      }
+      .otp-section {
+        text-align: center;
+        margin: 30px 0;
+        padding: 20px;
+        background-color: #f0f7ff;
+        border-radius: 8px;
+        border: 1px dashed #bee3f8;
+      }
+      .otp-code {
+        font-size: 32px;
+        font-weight: bold;
+        letter-spacing: 8px;
+        color: #4361ee;
+        margin: 15px 0;
+        font-family: "Courier New", monospace;
+      }
+      .cta-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        color: white;
+        padding: 12px 30px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 15px;
+        margin: 15px 0;
+      }
+      .features {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 25px 0;
+      }
+      .feature {
+        text-align: center;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        border: 1px solid #e9ecef;
+      }
+      .feature-icon {
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+      .feature-text {
+        font-size: 13px;
+        color: #4a5568;
+      }
+      .security-note {
+        background-color: #fffaf0;
+        border: 1px solid #feebc8;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 20px 0;
+        color: #dd6b20;
+        font-size: 14px;
+      }
+      .footer {
+        background-color: #f8f9fa;
+        padding: 25px;
+        text-align: center;
+        color: #718096;
+        font-size: 13px;
+        border-top: 1px solid #e2e8f0;
+      }
+      .footer-links {
+        margin: 15px 0;
+      }
+      .footer-links a {
+        color: #718096;
+        text-decoration: none;
+        margin: 0 10px;
+        font-size: 13px;
+      }
+      @media (max-width: 480px) {
+        .container {
+          margin: 10px;
+          border-radius: 8px;
+        }
+        .content {
+          padding: 20px 15px;
+        }
+        .features {
+          grid-template-columns: 1fr;
+        }
+        .otp-code {
+          font-size: 24px;
+          letter-spacing: 5px;
+        }
+        .cta-button {
+          display: block;
+          text-align: center;
+          margin: 20px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="logo">Pynex</div>
+        <p class="logo-subtitle">Email Verification</p>
+      </div>
+
+      <div class="content">
+        <div class="greeting">Hello {{ name }},</div>
+
+        <div class="message">
+          Thank you for registering with Pynex Expense Tracker! To complete your
+          registration and start tracking your expenses, please verify your
+          email address using the OTP code below:
+        </div>
+
+        <div class="otp-section">
+          <p style="margin: 0 0 15px 0; color: #4a5568">
+            Your Verification Code:
+          </p>
+          <div class="otp-code">{{ otp_code }}</div>
+          <p style="margin: 15px 0 0 0; color: #718096; font-size: 14px">
+            This code will expire in 10 minutes.
+          </p>
+        </div>
+
+        <div style="text-align: center; margin: 25px 0">
+          <a href="{{ verification_link }}" class="cta-button"
+            >Verify Email Address</a
+          >
+        </div>
+
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">💰</div>
+            <div class="feature-text">Track Expenses</div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">📊</div>
+            <div class="feature-text">View Reports</div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🎯</div>
+            <div class="feature-text">Set Budgets</div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">📱</div>
+            <div class="feature-text">Anywhere Access</div>
+          </div>
+        </div>
+
+        <div class="security-note">
+          <strong>Important:</strong> If you didn't create an account with Pynex
+          Expense Tracker, please ignore this email. Your email address will not
+          be used for any purpose.
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="footer-links">
+          <a href="{{ help_link }}">Help Center</a>
+          <a href="{{ privacy_link }}">Privacy Policy</a>
+          <a href="{{ unsubscribe_link }}">Unsubscribe</a>
+        </div>
+        <p style="margin: 10px 0">
+          &copy; {{ current_year }} Pynex Expense Tracker. All rights reserved.
+        </p>
+        <p style="margin: 5px 0; font-size: 12px; color: #a0aec0">
+          This email was sent to {{ email }} as part of your Pynex account
+          registration.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
