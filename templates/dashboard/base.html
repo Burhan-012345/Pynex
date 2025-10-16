@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pynex Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f7fafc;
+        --text-primary: #2d3748;
+        --text-secondary: #718096;
+        --border-color: #e2e8f0;
+      }
+
+      [data-theme="dark"] {
+        --bg-primary: #1a202c;
+        --bg-secondary: #2d3748;
+        --text-primary: #f7fafc;
+        --text-secondary: #e2e8f0;
+        --border-color: #4a5568;
+      }
+
+      body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard">
+      <nav class="navbar">
+        <div class="container">
+          <div class="navbar-content">
+            <div class="logo">Pynex</div>
+            <div class="nav-links">
+              <a href="{{ url_for('dashboard') }}">Dashboard</a>
+              <a href="{{ url_for('all_expenses_page') }}">Expenses</a>
+              <a href="{{ url_for('profile_page') }}">Profile</a>
+              <span>Welcome, {{ user_name }}!</span>
+              <a href="{{ url_for('auth.logout') }}">Logout</a>
+              <!-- Fixed this line -->
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main class="main-content">
+        <div class="container">{% block dashboard_content %}{% endblock %}</div>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>

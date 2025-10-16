@@ -1,0 +1,430 @@
+{% extends "dashboard/base.html" %} {% block dashboard_content %}
+<div class="welcome-section">
+  <h1>Add New Expense</h1>
+  <p>Track your spending by adding expenses</p>
+</div>
+
+<div class="expense-form">
+  <form id="expenseForm">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="amount">Amount (₹)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="amount"
+          name="amount"
+          step="0.01"
+          min="0"
+          required
+          placeholder="0.00"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" id="category" name="category" required>
+          <option value="">Select Category</option>
+          <option value="Food">🍕 Food & Dining</option>
+          <option value="Transport">🚗 Transport</option>
+          <option value="Shopping">🛍️ Shopping</option>
+          <option value="Bills">📄 Bills & Utilities</option>
+          <option value="Entertainment">🎬 Entertainment</option>
+          <option value="Healthcare">🏥 Healthcare</option>
+          <option value="Education">📚 Education</option>
+          <option value="Travel">✈️ Travel</option>
+          <option value="Other">📦 Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input
+          type="date"
+          class="form-control"
+          id="date"
+          name="date"
+          required
+          value="{{ current_date }}"
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description (Optional)</label>
+      <textarea
+        class="form-control"
+        id="description"
+        name="description"
+        rows="3"
+        placeholder="Add a note about this expense..."
+      ></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" id="submitBtn">
+        <i class="fas fa-plus"></i> Add Expense
+      </button>
+      <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </a>
+    </div>
+  </form>
+</div>
+
+<div class="recent-expenses" style="margin-top: 40px">
+  <h3>Recent Expenses</h3>
+  <div id="recentExpensesList">
+    <!-- Recent expenses will be loaded here -->
+  </div>
+</div>
+
+<style>
+  .expense-form {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2d3748;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: #4361ee;
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+  }
+
+  .btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    background: #4361ee;
+    color: white;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: #3a56d4;
+    transform: translateY(-2px);
+  }
+
+  .btn-primary:disabled {
+    background: #a5b4fc;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-secondary {
+    background: #6c757d;
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+  }
+
+  .recent-expenses {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .expense-item {
+    padding: 15px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .expense-item:last-child {
+    border-bottom: none;
+  }
+
+  .expense-category {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-left: 10px;
+  }
+
+  .expense-food {
+    background: #ffe5ec;
+    color: #c9184a;
+  }
+  .expense-transport {
+    background: #e2eafc;
+    color: #1d4ed8;
+  }
+  .expense-shopping {
+    background: #fff0f3;
+    color: #e63946;
+  }
+  .expense-bills {
+    background: #f8f9fa;
+    color: #6c757d;
+  }
+  .expense-entertainment {
+    background: #fff3cd;
+    color: #856404;
+  }
+  .expense-healthcare {
+    background: #d1ecf1;
+    color: #0c5460;
+  }
+  .expense-education {
+    background: #d4edda;
+    color: #155724;
+  }
+  .expense-travel {
+    background: #e2e3e5;
+    color: #383d41;
+  }
+  .expense-other {
+    background: #f8d7da;
+    color: #721c24;
+  }
+
+  @media (max-width: 768px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+      flex-direction: column;
+    }
+
+    .btn {
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Set default date to today
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("date").value = today;
+
+    // Load recent expenses
+    loadRecentExpenses();
+
+    // Initialize form with proper event handling
+    initializeExpenseForm();
+  });
+
+  function initializeExpenseForm() {
+    const form = document.getElementById("expenseForm");
+    const submitBtn = document.getElementById("submitBtn");
+    let isSubmitting = false;
+
+    // Remove any existing event listeners by cloning the form
+    const newForm = form.cloneNode(true);
+    form.parentNode.replaceChild(newForm, form);
+
+    // Get the new form reference
+    const expenseForm = document.getElementById("expenseForm");
+    const newSubmitBtn = document.getElementById("submitBtn");
+
+    // Add single submit event listener
+    expenseForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      console.log("📝 Form submission triggered");
+
+      if (isSubmitting) {
+        console.log("⏳ Already submitting, skipping...");
+        return;
+      }
+
+      isSubmitting = true;
+
+      try {
+        // Disable submit button
+        newSubmitBtn.disabled = true;
+        newSubmitBtn.innerHTML =
+          '<i class="fas fa-spinner fa-spin"></i> Adding...';
+
+        // Get form data
+        const formData = new FormData(expenseForm);
+        const expenseData = {
+          amount: parseFloat(formData.get("amount")),
+          category: formData.get("category"),
+          description: formData.get("description"),
+          date: formData.get("date"),
+        };
+
+        console.log("📤 Sending expense data:", expenseData);
+
+        // Validate required fields
+        if (!expenseData.amount || expenseData.amount <= 0) {
+          throw new Error("Please enter a valid amount");
+        }
+
+        if (!expenseData.category) {
+          throw new Error("Please select a category");
+        }
+
+        if (!expenseData.date) {
+          throw new Error("Please select a date");
+        }
+
+        // Send request
+        const response = await fetch("/add-expense", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(expenseData),
+        });
+
+        const result = await response.json();
+        console.log("📥 Server response:", result);
+
+        if (response.ok) {
+          // Clear form
+          expenseForm.reset();
+          document.getElementById("date").value = new Date()
+            .toISOString()
+            .split("T")[0];
+
+          // Show success message
+          showNotification("Expense added successfully!", "success");
+
+          // Reload recent expenses
+          loadRecentExpenses();
+        } else {
+          throw new Error(result.error || "Failed to add expense");
+        }
+      } catch (error) {
+        console.error("❌ Error adding expense:", error);
+        showNotification("Error: " + error.message, "error");
+      } finally {
+        // Re-enable submit button
+        isSubmitting = false;
+        newSubmitBtn.disabled = false;
+        newSubmitBtn.innerHTML = '<i class="fas fa-plus"></i> Add Expense';
+      }
+    });
+  }
+
+  // Notification function
+  function showNotification(message, type = "info") {
+    // Remove any existing notifications
+    const existingNotifications = document.querySelectorAll(".notification");
+    existingNotifications.forEach((notification) => notification.remove());
+
+    const notification = document.createElement("div");
+    notification.className = `notification notification-${type}`;
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 10000;
+      border-left: 4px solid #4361ee;
+      animation: slideInRight 0.3s ease;
+      max-width: 400px;
+    `;
+
+    if (type === "success") notification.style.borderLeftColor = "#4cc9f0";
+    if (type === "error") notification.style.borderLeftColor = "#f72585";
+
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.remove();
+    }, 5000);
+  }
+
+  async function loadRecentExpenses() {
+    try {
+      const response = await fetch("/get-expenses?limit=5");
+      const expenses = await response.json();
+
+      const container = document.getElementById("recentExpensesList");
+
+      if (expenses.length === 0) {
+        container.innerHTML =
+          "<p>No expenses recorded yet. Start by adding your first expense!</p>";
+        return;
+      }
+
+      let html = "";
+      expenses.forEach((expense) => {
+        html += `
+          <div class="expense-item">
+            <div>
+              <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                <strong>₹${parseFloat(expense.amount).toFixed(2)}</strong>
+                <span class="expense-category expense-${expense.category.toLowerCase()}">
+                  ${expense.category}
+                </span>
+              </div>
+              <div>${expense.description || "No description"}</div>
+              <small>${expense.date}</small>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    } catch (error) {
+      console.error("Error loading recent expenses:", error);
+      container.innerHTML = "<p>Error loading recent expenses.</p>";
+    }
+  }
+</script>
+{% endblock %}

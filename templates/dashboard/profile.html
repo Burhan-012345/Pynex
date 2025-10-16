@@ -1,0 +1,1659 @@
+{% extends "dashboard/base.html" %} {% block dashboard_content %}
+<div class="profile-container">
+  <!-- Header Section -->
+  <div class="welcome-section">
+    <div class="profile-header">
+      <div class="profile-avatar-section">
+        <div class="avatar-container">
+          <div class="avatar-circle" id="avatarPreview">
+            {{ user_name[0]|upper if user_name else 'U' }}
+          </div>
+          <input
+            type="file"
+            id="avatarInput"
+            accept="image/*"
+            style="display: none"
+          />
+          <button
+            type="button"
+            class="btn-avatar-upload"
+            onclick="document.getElementById('avatarInput').click()"
+          >
+            <i class="fas fa-camera"></i>
+          </button>
+        </div>
+      </div>
+      <div class="profile-info">
+        <h1>Profile Settings</h1>
+        <p>Manage your account information and preferences</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-form-section">
+    <div class="form-card">
+      <h2><i class="fas fa-user-edit"></i> Personal Information</h2>
+
+      <form id="profileForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              value="{{ user_name }}"
+              required
+            />
+            <small class="form-text"
+              >Your full name as you'd like it to appear</small
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              value="{{ session.user_email }}"
+              readonly
+            />
+            <small class="form-text">Email cannot be changed</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number (Optional)</label>
+          <input
+            type="tel"
+            class="form-control"
+            id="phone"
+            name="phone"
+            placeholder="+91 98765 43210"
+            pattern="^\+?[\d\s\-\(\)]+$"
+          />
+          <small class="form-text"
+            >Add your phone number for account recovery</small
+          >
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Save Changes
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="resetForm()">
+            <i class="fas fa-undo"></i> Reset
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Theme Customization -->
+  <div class="theme-section">
+    <div class="form-card">
+      <h2><i class="fas fa-palette"></i> Theme Preferences</h2>
+
+      <div class="theme-options">
+        <div class="theme-option" data-theme="light">
+          <div class="theme-preview light-theme">
+            <div class="theme-header"></div>
+            <div class="theme-content">
+              <div class="theme-item"></div>
+              <div class="theme-item"></div>
+            </div>
+          </div>
+          <label>
+            <input
+              type="radio"
+              name="theme"
+              value="light"
+              class="theme-radio"
+            />
+            Light
+          </label>
+        </div>
+
+        <div class="theme-option" data-theme="dark">
+          <div class="theme-preview dark-theme">
+            <div class="theme-header"></div>
+            <div class="theme-content">
+              <div class="theme-item"></div>
+              <div class="theme-item"></div>
+            </div>
+          </div>
+          <label>
+            <input type="radio" name="theme" value="dark" class="theme-radio" />
+            Dark
+          </label>
+        </div>
+
+        <div class="theme-option" data-theme="auto">
+          <div class="theme-preview auto-theme">
+            <div class="theme-header"></div>
+            <div class="theme-content">
+              <div class="theme-item"></div>
+              <div class="theme-item"></div>
+            </div>
+          </div>
+          <label>
+            <input type="radio" name="theme" value="auto" class="theme-radio" />
+            Auto (System)
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Preferences -->
+  <div class="notifications-section">
+    <div class="form-card">
+      <h2><i class="fas fa-bell"></i> Notification Preferences</h2>
+
+      <div class="notification-options">
+        <div class="notification-item">
+          <div class="notification-info">
+            <h4>Email Notifications</h4>
+            <p>Receive expense reports and security alerts via email</p>
+          </div>
+          <label class="switch">
+            <input
+              type="checkbox"
+              id="notification_email"
+              name="notification_email"
+            />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="notification-item">
+          <div class="notification-info">
+            <h4>SMS Notifications</h4>
+            <p>Get important alerts via text message</p>
+          </div>
+          <label class="switch">
+            <input
+              type="checkbox"
+              id="notification_sms"
+              name="notification_sms"
+            />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="notification-item">
+          <div class="notification-info">
+            <h4>Push Notifications</h4>
+            <p>Receive real-time updates in your browser</p>
+          </div>
+          <label class="switch">
+            <input
+              type="checkbox"
+              id="notification_push"
+              name="notification_push"
+            />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Password Change Section -->
+  <div class="password-section">
+    <div class="form-card">
+      <h2><i class="fas fa-lock"></i> Change Password</h2>
+
+      <form id="passwordForm">
+        <div class="form-group">
+          <label for="current_password">Current Password</label>
+          <div class="password-input">
+            <input
+              type="password"
+              class="form-control"
+              id="current_password"
+              name="current_password"
+              required
+              minlength="8"
+            />
+            <button type="button" class="toggle-password">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="new_password">New Password</label>
+          <div class="password-input">
+            <input
+              type="password"
+              class="form-control"
+              id="new_password"
+              name="new_password"
+              required
+              minlength="8"
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+            />
+            <button type="button" class="toggle-password">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="password-strength" id="passwordStrength"></div>
+          <small class="form-text"
+            >Must contain uppercase, lowercase, number, and special
+            character</small
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="confirm_password">Confirm New Password</label>
+          <div class="password-input">
+            <input
+              type="password"
+              class="form-control"
+              id="confirm_password"
+              name="confirm_password"
+              required
+              minlength="8"
+            />
+            <button type="button" class="toggle-password">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="password-match" id="passwordMatch"></div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-key"></i> Update Password
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Account Statistics -->
+  <div class="stats-section">
+    <div class="form-card">
+      <h2><i class="fas fa-chart-bar"></i> Account Statistics</h2>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-receipt"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="totalExpenses">₹0.00</h3>
+            <p>Total Expenses</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-calendar-day"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="thisMonthExpenses">₹0.00</h3>
+            <p>This Month</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-tags"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="totalCategories">0</h3>
+            <p>Categories Used</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-user-clock"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="memberSince">-</h3>
+            <p>Member Since</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add this before the Account Actions section in profile.html -->
+  <div class="security-section">
+    <div class="form-card">
+      <h2><i class="fas fa-shield-alt"></i> Security</h2>
+
+      <div class="security-status">
+        <div class="status-item">
+          <span class="status-label">Two-Factor Authentication:</span>
+          <span class="status-value" id="2faStatus">Not Enabled</span>
+        </div>
+        <div class="status-item">
+          <span class="status-label">Last Password Change:</span>
+          <span class="status-value" id="lastPasswordChange">-</span>
+        </div>
+      </div>
+
+      <div class="security-actions">
+        <button type="button" class="btn btn-info" onclick="setup2FA()">
+          <i class="fas fa-shield-alt"></i> Setup Two-Factor Authentication
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-info"
+          onclick="viewLoginHistory()"
+        >
+          <i class="fas fa-history"></i> Login History
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Account Actions -->
+  <div class="actions-section">
+    <div class="form-card">
+      <h2><i class="fas fa-cog"></i> Account Actions</h2>
+
+      <div class="action-buttons">
+        <button type="button" class="btn btn-info" onclick="exportData()">
+          <i class="fas fa-download"></i> Export My Data
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-warning"
+          onclick="exportData('csv')"
+        >
+          <i class="fas fa-file-csv"></i> Export CSV
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-warning"
+          onclick="exportData('pdf')"
+        >
+          <i class="fas fa-file-pdf"></i> Export PDF
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-danger"
+          onclick="showDeleteModal()"
+        >
+          <i class="fas fa-trash"></i> Delete Account
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Account Modal -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Delete Account</h3>
+      <span class="close" onclick="closeDeleteModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div class="warning-message">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h4>Warning: This action cannot be undone</h4>
+        <p>
+          All your data including expenses, categories, and account information
+          will be permanently deleted.
+        </p>
+      </div>
+
+      <div class="confirmation-section">
+        <p>Please type <strong>DELETE MY ACCOUNT</strong> to confirm:</p>
+        <input
+          type="text"
+          id="deleteConfirmation"
+          class="form-control"
+          placeholder="Type DELETE MY ACCOUNT here"
+        />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        onclick="closeDeleteModal()"
+      >
+        Cancel
+      </button>
+      <button type="button" class="btn btn-danger" id="confirmDelete" disabled>
+        <i class="fas fa-trash"></i> Permanently Delete Account
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Add CSS variables for theming */
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7fafc;
+    --text-primary: #2d3748;
+    --text-secondary: #718096;
+    --border-color: #e2e8f0;
+    --card-bg: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .theme-dark {
+    --bg-primary: #1a202c;
+    --bg-secondary: #2d3748;
+    --text-primary: #f7fafc;
+    --text-secondary: #e2e8f0;
+    --border-color: #4a5568;
+    --card-bg: #2d3748;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+  }
+
+  /* Update existing styles to use CSS variables */
+  .profile-container {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  .form-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    box-shadow: 0 4px 6px var(--shadow-color);
+  }
+
+  .form-card h2 {
+    color: var(--text-primary);
+  }
+
+  .form-group label {
+    color: var(--text-primary);
+  }
+
+  .form-control {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .form-control:focus {
+    background: var(--bg-secondary);
+    border-color: #4361ee;
+    color: var(--text-primary);
+  }
+
+  .form-control::placeholder {
+    color: var(--text-secondary);
+  }
+
+  .stat-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .stat-info h3 {
+    color: var(--text-primary);
+  }
+
+  .stat-info p {
+    color: var(--text-secondary);
+  }
+
+  /* Theme preview styles for dark mode */
+  .theme-dark .theme-preview.light-theme .theme-content {
+    background: #f7fafc;
+  }
+
+  .theme-dark .theme-preview.dark-theme .theme-content {
+    background: #2d3748;
+  }
+
+  .theme-dark .theme-preview .theme-item {
+    background: #4a5568;
+  }
+
+  /* Notification items in dark mode */
+  .theme-dark .notification-item {
+    border-bottom-color: var(--border-color);
+  }
+
+  /* Modal styles for dark theme */
+  .theme-dark .modal-content {
+    background: var(--card-bg);
+    color: var(--text-primary);
+  }
+
+  .theme-dark .modal-header {
+    border-bottom-color: var(--border-color);
+  }
+
+  .theme-dark .modal-footer {
+    border-top-color: var(--border-color);
+  }
+
+  .theme-dark .warning-message {
+    background: #2d1a1a;
+    border-color: #742a2a;
+    color: #fed7d7;
+  }
+  .profile-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 10px;
+  }
+
+  .avatar-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .avatar-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4361ee, #3a0ca3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+    overflow: hidden;
+  }
+
+  .avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .btn-avatar-upload {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #4361ee;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-avatar-upload:hover {
+    background: #3a0ca3;
+  }
+
+  .profile-info h1 {
+    margin: 0;
+    color: #2d3748;
+  }
+
+  .profile-info p {
+    margin: 5px 0 0 0;
+    color: #718096;
+  }
+
+  .form-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .form-card h2 {
+    margin-bottom: 25px;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .form-card h2 i {
+    color: #4361ee;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2d3748;
+  }
+
+  .form-text {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.875rem;
+    color: #718096;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+  }
+
+  /* Theme Options */
+  .theme-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .theme-option {
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .theme-preview {
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 2px solid #e2e8f0;
+    transition: border-color 0.3s ease;
+  }
+
+  .theme-option:hover .theme-preview {
+    border-color: #4361ee;
+  }
+
+  .theme-radio:checked + .theme-preview {
+    border-color: #4361ee;
+  }
+
+  .theme-header {
+    height: 20px;
+    background: #4361ee;
+  }
+
+  .theme-content {
+    padding: 10px;
+    height: 60px;
+  }
+
+  .theme-item {
+    height: 8px;
+    background: #e2e8f0;
+    margin-bottom: 5px;
+    border-radius: 2px;
+  }
+
+  .light-theme .theme-content {
+    background: white;
+  }
+
+  .dark-theme .theme-content {
+    background: #2d3748;
+  }
+
+  .dark-theme .theme-item {
+    background: #4a5568;
+  }
+
+  .auto-theme {
+    background: linear-gradient(135deg, white 50%, #2d3748 50%);
+  }
+
+  .theme-option label {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .theme-radio {
+    display: none;
+  }
+
+  /* Notification Options */
+  .notification-options {
+    margin-top: 20px;
+  }
+
+  .notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .notification-item:last-child {
+    border-bottom: none;
+  }
+
+  .notification-info h4 {
+    margin: 0 0 5px 0;
+    color: #2d3748;
+  }
+
+  .notification-info p {
+    margin: 0;
+    color: #718096;
+    font-size: 0.875rem;
+  }
+
+  /* Switch Toggle */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+
+  input:checked + .slider {
+    background-color: #4361ee;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+
+  /* Button Styles */
+  .btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: #4361ee;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #3a0ca3;
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: #718096;
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: #4a5568;
+    transform: translateY(-2px);
+  }
+
+  .btn-warning {
+    background: #f8961e;
+    color: white;
+  }
+
+  .btn-warning:hover {
+    background: #e07c0e;
+    transform: translateY(-2px);
+  }
+
+  .btn-info {
+    background: #4cc9f0;
+    color: white;
+  }
+
+  .btn-info:hover {
+    background: #3ab8dd;
+    transform: translateY(-2px);
+  }
+
+  .btn-danger {
+    background: #f72585;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background: #d1144a;
+    transform: translateY(-2px);
+  }
+
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Stats Section */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .stat-card {
+    background: #f7fafc;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .stat-icon {
+    font-size: 2rem;
+    color: #4361ee;
+    margin-bottom: 10px;
+  }
+
+  .stat-info h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #2d3748;
+  }
+
+  .stat-info p {
+    margin: 5px 0 0 0;
+    color: #718096;
+    font-size: 0.875rem;
+  }
+
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  /* Password Strength Indicator */
+  .password-strength,
+  .password-match {
+    margin-top: 5px;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .strength-weak {
+    color: #f72585;
+  }
+  .strength-medium {
+    color: #f8961e;
+  }
+  .strength-strong {
+    color: #4cc9f0;
+  }
+  .match-valid {
+    color: #4cc9f0;
+  }
+  .match-invalid {
+    color: #f72585;
+  }
+
+  /* Modal Styles */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+  }
+
+  .modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease;
+  }
+
+  @keyframes modalSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .modal-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .modal-header h3 {
+    margin: 0;
+    color: #2d3748;
+  }
+
+  .close {
+    color: #718096;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .close:hover {
+    color: #2d3748;
+  }
+
+  .modal-body {
+    padding: 25px;
+  }
+
+  .modal-footer {
+    padding: 20px 25px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+  }
+
+  .warning-message {
+    background: #fed7d7;
+    border: 1px solid #feb2b2;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .warning-message i {
+    color: #c53030;
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  .warning-message h4 {
+    margin: 10px 0;
+    color: #c53030;
+  }
+
+  .confirmation-section {
+    margin-top: 20px;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .profile-header {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+      flex-direction: column;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .action-buttons {
+      flex-direction: column;
+    }
+
+    .theme-options {
+      grid-template-columns: 1fr;
+    }
+
+    .notification-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .modal-content {
+      margin: 10% auto;
+      width: 95%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .form-card {
+      padding: 20px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Initialize profile page
+    loadUserProfile();
+    loadUserStats();
+    initializePasswordValidation();
+    initializeFormHandlers();
+    initializeThemeSelection();
+    initializeAvatarUpload();
+
+    // Set up toggle password functionality
+    initializeTogglePassword();
+  });
+
+  function initializeFormHandlers() {
+    // Profile form handler
+    const profileForm = document.getElementById("profileForm");
+    if (profileForm) {
+      profileForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        await updateProfile();
+      });
+    }
+
+    // Password form handler
+    const passwordForm = document.getElementById("passwordForm");
+    if (passwordForm) {
+      passwordForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        await changePassword();
+      });
+    }
+
+    // Notification toggles
+    const notificationToggles = document.querySelectorAll(
+      '.notification-options input[type="checkbox"]'
+    );
+    notificationToggles.forEach((toggle) => {
+      toggle.addEventListener("change", async function () {
+        await updateProfile();
+      });
+    });
+
+    // Theme selection
+    const themeRadios = document.querySelectorAll(".theme-radio");
+    themeRadios.forEach((radio) => {
+      radio.addEventListener("change", async function () {
+        await updateProfile();
+      });
+    });
+  }
+
+  function initializeTogglePassword() {
+    const toggleButtons = document.querySelectorAll(".toggle-password");
+    toggleButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const passwordInput = this.previousElementSibling;
+        const type =
+          passwordInput.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        passwordInput.setAttribute("type", type);
+
+        const icon = this.querySelector("i");
+        if (type === "password") {
+          icon.className = "fas fa-eye";
+        } else {
+          icon.className = "fas fa-eye-slash";
+        }
+      });
+    });
+  }
+
+  function initializeAvatarUpload() {
+    const avatarInput = document.getElementById("avatarInput");
+    if (avatarInput) {
+      avatarInput.addEventListener("change", async function (e) {
+        if (this.files && this.files[0]) {
+          await uploadAvatar(this.files[0]);
+        }
+      });
+    }
+  }
+
+  function initializeThemeSelection() {
+    // This will be populated when user profile is loaded
+  }
+
+  function initializePasswordValidation() {
+    const newPassword = document.getElementById("new_password");
+    const confirmPassword = document.getElementById("confirm_password");
+    const strengthIndicator = document.getElementById("passwordStrength");
+    const matchIndicator = document.getElementById("passwordMatch");
+
+    if (newPassword) {
+      newPassword.addEventListener("input", function () {
+        const strength = calculatePasswordStrength(this.value);
+        strengthIndicator.textContent = strength.text;
+        strengthIndicator.className = `password-strength strength-${strength.level}`;
+        validatePasswordMatch();
+      });
+    }
+
+    if (confirmPassword) {
+      confirmPassword.addEventListener("input", validatePasswordMatch);
+    }
+
+    function validatePasswordMatch() {
+      const newPass = newPassword.value;
+      const confirmPass = confirmPassword.value;
+
+      if (!newPass || !confirmPass) {
+        matchIndicator.textContent = "";
+        return;
+      }
+
+      if (newPass === confirmPass) {
+        matchIndicator.textContent = "✓ Passwords match";
+        matchIndicator.className = "password-match match-valid";
+      } else {
+        matchIndicator.textContent = "✗ Passwords do not match";
+        matchIndicator.className = "password-match match-invalid";
+      }
+    }
+  }
+
+  function calculatePasswordStrength(password) {
+    let score = 0;
+
+    if (password.length >= 8) score++;
+    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) score++;
+    if (password.match(/\d/)) score++;
+    if (password.match(/[^a-zA-Z\d]/)) score++;
+
+    const levels = [
+      { level: "weak", text: "Weak password" },
+      { level: "weak", text: "Weak password" },
+      { level: "medium", text: "Medium strength" },
+      { level: "strong", text: "Strong password" },
+      { level: "strong", text: "Very strong password" },
+    ];
+
+    return levels[Math.min(score, levels.length - 1)];
+  }
+
+  async function loadUserProfile() {
+    try {
+      const response = await fetch("/api/user/profile");
+      const user = await response.json();
+
+      if (response.ok) {
+        // Populate form fields
+        document.getElementById("phone").value = user.phone || "";
+
+        // Set notification preferences
+        document.getElementById("notification_email").checked =
+          user.notification_email;
+        document.getElementById("notification_sms").checked =
+          user.notification_sms;
+        document.getElementById("notification_push").checked =
+          user.notification_push;
+
+        // Set theme
+        const themeRadio = document.querySelector(
+          `.theme-radio[value="${user.theme || "auto"}"]`
+        );
+        if (themeRadio) {
+          themeRadio.checked = true;
+        }
+
+        // Update avatar preview if exists
+        if (user.avatar && user.avatar !== "default_avatar.png") {
+          const avatarPreview = document.getElementById("avatarPreview");
+          avatarPreview.innerHTML = `<img src="/static/uploads/avatars/${user.avatar}" alt="${user.name}" />`;
+        }
+      } else {
+        throw new Error(user.error || "Failed to load profile");
+      }
+    } catch (error) {
+      console.error("Error loading profile:", error);
+      showNotification("Error loading profile: " + error.message, "error");
+    }
+  }
+
+  async function updateProfile() {
+    const formData = {
+      name: document.getElementById("name").value.trim(),
+      phone: document.getElementById("phone").value.trim(),
+      notification_email: document.getElementById("notification_email").checked,
+      notification_sms: document.getElementById("notification_sms").checked,
+      notification_push: document.getElementById("notification_push").checked,
+      theme:
+        document.querySelector('input[name="theme"]:checked')?.value || "auto",
+    };
+
+    // Frontend validation
+    if (!formData.name) {
+      showNotification("Please enter your name", "error");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/user/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        showNotification("Profile updated successfully!", "success");
+        // Update session data if needed
+        if (result.user) {
+          // You might want to update the UI with new user data
+        }
+      } else {
+        throw new Error(result.error || "Failed to update profile");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      showNotification("Error updating profile: " + error.message, "error");
+    }
+  }
+
+  async function uploadAvatar(file) {
+    if (!file) return;
+
+    // Validate file type
+    const validTypes = ["image/jpeg", "image/png", "image/gif"];
+    if (!validTypes.includes(file.type)) {
+      showNotification(
+        "Please select a valid image file (JPEG, PNG, GIF)",
+        "error"
+      );
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      showNotification("Image size should be less than 5MB", "error");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    try {
+      const response = await fetch("/api/user/upload-avatar", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        showNotification("Profile picture updated successfully!", "success");
+
+        // Update avatar preview
+        const avatarPreview = document.getElementById("avatarPreview");
+        avatarPreview.innerHTML = `<img src="${result.avatar_url}" alt="Profile Picture" />`;
+      } else {
+        throw new Error(result.error || "Failed to upload avatar");
+      }
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+      showNotification("Error uploading avatar: " + error.message, "error");
+    }
+  }
+
+  async function changePassword() {
+    const currentPassword = document.getElementById("current_password").value;
+    const newPassword = document.getElementById("new_password").value;
+    const confirmPassword = document.getElementById("confirm_password").value;
+
+    // Frontend validation
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      showNotification("Please fill in all password fields", "error");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      showNotification("New passwords do not match", "error");
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      showNotification(
+        "New password must be at least 8 characters long",
+        "error"
+      );
+      return;
+    }
+
+    const passwordStrength = calculatePasswordStrength(newPassword);
+    if (passwordStrength.level === "weak") {
+      showNotification("Please choose a stronger password", "error");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/user/change-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          current_password: currentPassword,
+          new_password: newPassword,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        showNotification("Password updated successfully!", "success");
+        document.getElementById("passwordForm").reset();
+        // Clear validation indicators
+        document.getElementById("passwordStrength").textContent = "";
+        document.getElementById("passwordMatch").textContent = "";
+      } else {
+        throw new Error(result.error || "Failed to change password");
+      }
+    } catch (error) {
+      console.error("Error changing password:", error);
+      showNotification("Error changing password: " + error.message, "error");
+    }
+  }
+
+  async function exportData(format = "json") {
+    try {
+      let url, filename;
+
+      switch (format) {
+        case "json":
+          url = "/api/user/export-data";
+          filename = `user_data_${new Date().toISOString().split("T")[0]}.json`;
+          break;
+        case "csv":
+          url = "/api/user/export-data-csv";
+          filename = `user_data_${new Date().toISOString().split("T")[0]}.csv`;
+          break;
+        case "pdf":
+          url = "/api/user/export-data-pdf";
+          filename = `user_data_${new Date().toISOString().split("T")[0]}.pdf`;
+          break;
+      }
+
+      showNotification("Preparing your data export...", "info");
+
+      const response = await fetch(url);
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = downloadUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(downloadUrl);
+
+        showNotification("Data exported successfully!", "success");
+      } else {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to export data");
+      }
+    } catch (error) {
+      console.error("Error exporting data:", error);
+      showNotification("Error exporting data: " + error.message, "error");
+    }
+  }
+
+  async function loadUserStats() {
+    try {
+      const response = await fetch("/api/user/stats");
+      const stats = await response.json();
+
+      if (response.ok) {
+        document.getElementById("totalExpenses").textContent =
+          stats.total_expenses || "₹0.00";
+        document.getElementById("thisMonthExpenses").textContent =
+          stats.this_month_expenses || "₹0.00";
+        document.getElementById("totalCategories").textContent =
+          stats.total_categories || "0";
+        document.getElementById("memberSince").textContent =
+          stats.member_since || "-";
+      }
+    } catch (error) {
+      console.error("Error loading stats:", error);
+    }
+  }
+
+  function resetForm() {
+    if (confirm("Are you sure you want to reset all changes?")) {
+      loadUserProfile();
+      document.getElementById("passwordForm").reset();
+      document.getElementById("passwordStrength").textContent = "";
+      document.getElementById("passwordMatch").textContent = "";
+    }
+  }
+
+  function showDeleteModal() {
+    document.getElementById("deleteModal").style.display = "block";
+
+    const confirmationInput = document.getElementById("deleteConfirmation");
+    const confirmButton = document.getElementById("confirmDelete");
+
+    confirmationInput.value = "";
+    confirmButton.disabled = true;
+
+    confirmationInput.addEventListener("input", function () {
+      confirmButton.disabled = this.value !== "DELETE MY ACCOUNT";
+    });
+
+    confirmButton.onclick = deleteAccount;
+  }
+
+  function closeDeleteModal() {
+    document.getElementById("deleteModal").style.display = "none";
+  }
+
+  async function deleteAccount() {
+    try {
+      const response = await fetch("/api/user/delete-account", {
+        method: "DELETE",
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        showNotification("Account deleted successfully", "success");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
+      } else {
+        throw new Error(result.error || "Failed to delete account");
+      }
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      showNotification("Error deleting account: " + error.message, "error");
+    }
+  }
+
+  function showNotification(message, type = "info") {
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll(
+      ".notification-toast"
+    );
+    existingNotifications.forEach((notification) => notification.remove());
+
+    const notification = document.createElement("div");
+    notification.className = `notification-toast notification-${type}`;
+    notification.innerHTML = `
+          <div class="notification-content">
+              <i class="fas fa-${getNotificationIcon(type)}"></i>
+              <span>${message}</span>
+          </div>
+          <button class="notification-close" onclick="this.parentElement.remove()">
+              <i class="fas fa-times"></i>
+          </button>
+      `;
+
+    // Add styles if not already added
+    if (!document.getElementById("notification-styles")) {
+      const styles = document.createElement("style");
+      styles.id = "notification-styles";
+      styles.textContent = `
+              .notification-toast {
+                  position: fixed;
+                  top: 20px;
+                  right: 20px;
+                  background: white;
+                  border-radius: 8px;
+                  padding: 15px 20px;
+                  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                  border-left: 4px solid #4361ee;
+                  z-index: 10000;
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  max-width: 400px;
+                  animation: slideInRight 0.3s ease;
+              }
+              
+              .notification-success {
+                  border-left-color: #4cc9f0;
+              }
+              
+              .notification-error {
+                  border-left-color: #f72585;
+              }
+              
+              .notification-warning {
+                  border-left-color: #f8961e;
+              }
+              
+              .notification-content {
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  flex: 1;
+              }
+              
+              .notification-close {
+                  background: none;
+                  border: none;
+                  color: #718096;
+                  cursor: pointer;
+                  padding: 5px;
+              }
+              
+              @keyframes slideInRight {
+                  from {
+                      transform: translateX(100%);
+                      opacity: 0;
+                  }
+                  to {
+                      transform: translateX(0);
+                      opacity: 1;
+                  }
+              }
+          `;
+      document.head.appendChild(styles);
+    }
+
+    document.body.appendChild(notification);
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+      if (notification.parentElement) {
+        notification.remove();
+      }
+    }, 5000);
+  }
+
+  function getNotificationIcon(type) {
+    const icons = {
+      success: "check-circle",
+      error: "exclamation-circle",
+      warning: "exclamation-triangle",
+      info: "info-circle",
+    };
+    return icons[type] || "info-circle";
+  }
+
+  // Close modal when clicking outside
+  window.onclick = function (event) {
+    const modal = document.getElementById("deleteModal");
+    if (event.target === modal) {
+      closeDeleteModal();
+    }
+  };
+
+  function setup2FA() {
+    window.location.href = "{{ url_for('auth.setup_2fa') }}";
+  }
+</script>
+{% endblock %}
