@@ -1,0 +1,45 @@
+{% extends "layout.html" %} {% block content %}
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Verify OTP</h1>
+      <p>Enter the 6-digit code sent to your email</p>
+    </div>
+
+    <form id="verifyOtpForm">
+      <input type="hidden" name="email" value="{{ email }}" />
+      <input type="hidden" name="purpose" value="{{ purpose }}" />
+
+      <div class="form-group">
+        <label for="otp">OTP Code</label>
+        <input
+          type="text"
+          class="form-control otp-input"
+          id="otp"
+          name="otp"
+          maxlength="6"
+          required
+          pattern="[0-9]{6}"
+          title="Please enter exactly 6 digits"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary">
+        {% if purpose == 'register' %} Verify Account {% else %} Verify Reset {%
+        endif %}
+      </button>
+    </form>
+
+    <div class="auth-links">
+      <a href="#" onclick="resendOTP()">Resend OTP</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function resendOTP() {
+    // Implementation for resend OTP
+    alert("OTP resent to your email");
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "layout.html" %} {% block content %}
+<div class="auth-container">
+  <div class="auth-layout">
+    <!-- Left Side - Image Section -->
+    <div class="auth-left">
+      <div class="auth-image">
+        <img
+          src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+          alt="Expense Tracker"
+        />
+        <link
+          rel="stylesheet"
+          href="{{ url_for('static', filename='css/auth.css') }}"
+        />
+        <div class="image-overlay">
+          <div class="overlay-content">
+            <h2>Smart Expense Tracking</h2>
+            <p>
+              Take control of your finances with our intuitive expense
+              management system
+            </p>
+            <div class="features-list">
+              <div class="feature-item">
+                <i class="fas fa-chart-pie"></i>
+                <span>Visual Analytics</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-bolt"></i>
+                <span>Quick Insights</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Secure & Private</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side - Form Section -->
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h1>Pynex</h1>
+          <p>Welcome back to your expense tracker</p>
+        </div>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-input">
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                required
+              />
+              <button type="button" class="toggle-password">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+
+        <div style="text-align: center; margin: 20px 0">
+          <span>OR</span>
+        </div>
+
+        <a href="{{ url_for('google_login') }}" class="btn btn-google">
+          <i class="fab fa-google"></i>
+          Continue with Google
+        </a>
+
+        <div class="auth-links">
+          <a href="{{ url_for('forgot_password_page') }}">Forgot Password?</a>
+          <span> | </span>
+          <a href="{{ url_for('register_page') }}">Create Account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

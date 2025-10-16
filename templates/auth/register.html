@@ -1,0 +1,304 @@
+{% extends "layout.html" %} {% block content %}
+<div class="auth-container">
+  <div class="auth-layout">
+    <!-- Left Side - Image Section -->
+    <div class="auth-left">
+      <div class="auth-image">
+        <img
+          src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+          alt="Expense Tracker"
+        />
+        <link
+          rel="stylesheet"
+          href="{{ url_for('static', filename='css/auth.css') }}"
+        />
+        <div class="image-overlay">
+          <div class="overlay-content">
+            <h2>Start Your Financial Journey</h2>
+            <p>
+              Join thousands of users who are taking control of their spending
+              habits
+            </p>
+            <div class="features-list">
+              <div class="feature-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Track Progress</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Anywhere Access</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-lock"></i>
+                <span>Bank-level Security</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side - Form Section -->
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h1>Pynex</h1>
+          <p>Create your expense tracker account</p>
+        </div>
+
+        <form id="registerForm">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-input">
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                required
+              />
+              <button type="button" class="toggle-password">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <div class="password-strength-meter">
+              <div class="strength-bar">
+                <div class="strength-fill" id="strengthFill"></div>
+              </div>
+              <div class="strength-text" id="strengthText">
+                Password strength
+              </div>
+            </div>
+            <div class="password-requirements">
+              <small>
+                <ul id="passwordRequirements">
+                  <li id="reqLength">At least 8 characters</li>
+                  <li id="reqLowercase">One lowercase letter</li>
+                  <li id="reqUppercase">One uppercase letter</li>
+                  <li id="reqNumber">One number</li>
+                  <li id="reqSpecial">One special character</li>
+                </ul>
+              </small>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
+            Create Account
+          </button>
+        </form>
+
+        <div style="text-align: center; margin: 20px 0">
+          <span>OR</span>
+        </div>
+
+        <a href="{{ url_for('google_login') }}" class="btn btn-google">
+          <i class="fab fa-google"></i>
+          Continue with Google
+        </a>
+
+        <div class="auth-links">
+          <a href="{{ url_for('login_page') }}"
+            >Already have an account? Sign In</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .password-strength-meter {
+    margin-top: 10px;
+  }
+
+  .strength-bar {
+    width: 100%;
+    height: 6px;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .strength-fill {
+    height: 100%;
+    width: 0%;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+  }
+
+  .strength-text {
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .password-requirements {
+    margin-top: 10px;
+  }
+
+  .password-requirements ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .password-requirements li {
+    font-size: 11px;
+    margin: 2px 0;
+    color: #666;
+    transition: color 0.3s ease;
+  }
+
+  .password-requirements li.valid {
+    color: #28a745;
+  }
+
+  .password-requirements li.invalid {
+    color: #dc3545;
+  }
+
+  /* Strength levels */
+  .strength-weak {
+    background-color: #dc3545;
+  }
+  .strength-fair {
+    background-color: #fd7e14;
+  }
+  .strength-good {
+    background-color: #ffc107;
+  }
+  .strength-strong {
+    background-color: #28a745;
+  }
+  .strength-very-strong {
+    background-color: #20c997;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const passwordInput = document.getElementById("password");
+    const strengthFill = document.getElementById("strengthFill");
+    const strengthText = document.getElementById("strengthText");
+    const submitBtn = document.getElementById("submitBtn");
+
+    // Requirement elements
+    const reqLength = document.getElementById("reqLength");
+    const reqLowercase = document.getElementById("reqLowercase");
+    const reqUppercase = document.getElementById("reqUppercase");
+    const reqNumber = document.getElementById("reqNumber");
+    const reqSpecial = document.getElementById("reqSpecial");
+
+    passwordInput.addEventListener("input", function () {
+      const password = passwordInput.value;
+      const strength = calculatePasswordStrength(password);
+      updateStrengthMeter(strength);
+      updateRequirements(password);
+      updateSubmitButton(strength.level >= 3); // Enable if strength is "good" or above
+    });
+
+    function calculatePasswordStrength(password) {
+      let score = 0;
+      const requirements = {
+        length: password.length >= 8,
+        lowercase: /[a-z]/.test(password),
+        uppercase: /[A-Z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password),
+      };
+
+      // Calculate score
+      if (requirements.length) score += 1;
+      if (requirements.lowercase) score += 1;
+      if (requirements.uppercase) score += 1;
+      if (requirements.number) score += 1;
+      if (requirements.special) score += 1;
+
+      // Additional points for length
+      if (password.length >= 12) score += 1;
+      if (password.length >= 16) score += 1;
+
+      // Determine level and text
+      const levels = [
+        { level: 0, text: "Very Weak", width: "20%", class: "strength-weak" },
+        { level: 1, text: "Weak", width: "40%", class: "strength-weak" },
+        { level: 2, text: "Fair", width: "60%", class: "strength-fair" },
+        { level: 3, text: "Good", width: "75%", class: "strength-good" },
+        { level: 4, text: "Strong", width: "90%", class: "strength-strong" },
+        {
+          level: 5,
+          text: "Very Strong",
+          width: "100%",
+          class: "strength-very-strong",
+        },
+      ];
+
+      const levelIndex = Math.min(score, levels.length - 1);
+      return levels[levelIndex];
+    }
+
+    function updateStrengthMeter(strength) {
+      strengthFill.style.width = strength.width;
+      strengthFill.className = "strength-fill " + strength.class;
+      strengthText.textContent = strength.text;
+      strengthText.style.color = getComputedStyle(strengthFill).backgroundColor;
+    }
+
+    function updateRequirements(password) {
+      const requirements = {
+        length: password.length >= 8,
+        lowercase: /[a-z]/.test(password),
+        uppercase: /[A-Z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password),
+      };
+
+      reqLength.className = requirements.length ? "valid" : "invalid";
+      reqLowercase.className = requirements.lowercase ? "valid" : "invalid";
+      reqUppercase.className = requirements.uppercase ? "valid" : "invalid";
+      reqNumber.className = requirements.number ? "valid" : "invalid";
+      reqSpecial.className = requirements.special ? "valid" : "invalid";
+    }
+
+    function updateSubmitButton(isValid) {
+      submitBtn.disabled = !isValid;
+    }
+
+    // Toggle password visibility
+    document
+      .querySelector(".toggle-password")
+      .addEventListener("click", function () {
+        const type =
+          passwordInput.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        passwordInput.setAttribute("type", type);
+        this.querySelector("i").classList.toggle("fa-eye");
+        this.querySelector("i").classList.toggle("fa-eye-slash");
+      });
+  });
+</script>
+{% endblock %}

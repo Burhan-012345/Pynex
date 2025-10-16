@@ -1,0 +1,205 @@
+{% extends "layout.html" %} {% block content %}
+<div class="auth-container">
+  <div class="auth-layout">
+    <!-- Left Side - Image Section -->
+    <div class="auth-left">
+      <div class="auth-image">
+        <img
+          src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+          alt="Verify Two-Factor Authentication"
+        />
+        <link
+          rel="stylesheet"
+          href="{{ url_for('static', filename='css/auth.css') }}"
+        />
+        <div class="image-overlay">
+          <div class="overlay-content">
+            <h2>Secure Verification</h2>
+            <p>Enter your authentication code to continue securely</p>
+            <div class="features-list">
+              <div class="feature-item">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Mobile Authenticator</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-clock"></i>
+                <span>Time-based Codes</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Enhanced Security</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side - Form Section -->
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h1>Pynex</h1>
+          <p>Two-Factor Authentication</p>
+          <p class="text-muted">
+            Enter the 6-digit code from your authenticator app
+          </p>
+        </div>
+
+        <form id="verify2faForm" method="POST">
+          <div class="form-group">
+            <label for="otp">6-digit Verification Code</label>
+            <input
+              type="text"
+              class="form-control otp-input"
+              id="otp"
+              name="otp"
+              maxlength="6"
+              pattern="[0-9]{6}"
+              placeholder="000000"
+              required
+              autocomplete="one-time-code"
+            />
+            <small class="form-text text-muted">
+              Open your authenticator app and enter the 6-digit code
+            </small>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="verifyBtn">
+            Verify Code
+          </button>
+        </form>
+
+        <div class="recovery-options">
+          <details>
+            <summary>Having trouble with your authenticator app?</summary>
+            <div class="recovery-content">
+              <p>
+                If you're unable to access your authenticator app, you can use
+                one of your backup codes:
+              </p>
+              <form id="backupCodeForm" method="POST">
+                <div class="form-group">
+                  <label for="backup_code">Backup Code</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="backup_code"
+                    name="backup_code"
+                    placeholder="Enter backup code"
+                  />
+                </div>
+                <button type="submit" class="btn btn-outline-primary">
+                  Use Backup Code
+                </button>
+              </form>
+            </div>
+          </details>
+        </div>
+
+        <div class="auth-links">
+          <a href="{{ url_for('login_page') }}">Back to Login</a>
+          <span> | </span>
+          <a href="{{ url_for('forgot_password') }}">Need help?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const verifyForm = document.getElementById("verify2faForm");
+    const backupCodeForm = document.getElementById("backupCodeForm");
+    const verifyBtn = document.getElementById("verifyBtn");
+    const otpInput = document.getElementById("otp");
+
+    // Auto-focus on OTP input
+    otpInput.focus();
+
+    // Auto-tab between OTP digits (if using multiple inputs)
+    if (otpInput.classList.contains("otp-digit")) {
+      otpInput.addEventListener("input", function (e) {
+        if (this.value.length === 1) {
+          const next = this.nextElementSibling;
+          if (next && next.classList.contains("otp-digit")) {
+            next.focus();
+          }
+        }
+      });
+
+      otpInput.addEventListener("keydown", function (e) {
+        if (e.key === "Backspace" && this.value === "") {
+          const prev = this.previousElementSibling;
+          if (prev && prev.classList.contains("otp-digit")) {
+            prev.focus();
+          }
+        }
+      });
+    }
+
+    // Verify OTP form submission
+    verifyForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const otp = otpInput.value.trim();
+
+      if (otp.length !== 6 || !/^\d+$/.test(otp)) {
+        showAlert("Please enter a valid 6-digit code", "error");
+        return;
+      }
+
+      verifyBtn.disabled = true;
+      verifyBtn.textContent = "Verifying...";
+
+      // Submit the form
+      this.submit();
+    });
+
+    // Backup code form submission
+    backupCodeForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const backupCode = document.getElementById("backup_code").value.trim();
+
+      if (!backupCode) {
+        showAlert("Please enter a backup code", "error");
+        return;
+      }
+
+      const submitBtn = this.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Verifying...";
+
+      // Submit the form
+      this.submit();
+    });
+
+    function showAlert(message, type) {
+      // Remove existing alerts
+      const existingAlert = document.querySelector(".alert");
+      if (existingAlert) {
+        existingAlert.remove();
+      }
+
+      const alertDiv = document.createElement("div");
+      alertDiv.className = `alert alert-${type === "error" ? "danger" : type}`;
+      alertDiv.innerHTML = `
+        <i class="fas fa-${
+          type === "error" ? "exclamation-triangle" : "check-circle"
+        }"></i>
+        ${message}
+      `;
+
+      verifyForm.insertBefore(alertDiv, verifyForm.firstChild);
+
+      // Auto-remove after 5 seconds
+      setTimeout(() => {
+        if (alertDiv.parentNode) {
+          alertDiv.remove();
+        }
+      }, 5000);
+    }
+  });
+</script>
+{% endblock %}
