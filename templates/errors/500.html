@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Server Error - Pynex</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script src="https://unpkg.com/lottie-web@5.9.6/build/player/lottie.min.js"></script>
+    <style>
+      :root {
+        --error-primary: #ef4444;
+        --error-bg: #fef2f2;
+        --error-border: #fecaca;
+      }
+
+      [data-theme="dark"] {
+        --error-primary: #ef4444;
+        --error-bg: #450a0a;
+        --error-border: #7f1d1d;
+      }
+
+      .error-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: var(--bg-primary);
+        transition: all 0.3s ease;
+      }
+
+      .error-card {
+        background: var(--bg-secondary);
+        border-radius: 16px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--border-color);
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .error-animation {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto 20px;
+      }
+
+      .error-header h1 {
+        font-size: 4rem;
+        font-weight: 700;
+        color: var(--error-primary);
+        margin: 0 0 10px;
+      }
+
+      .error-header p {
+        font-size: 1.5rem;
+        color: var(--text-primary);
+        margin: 0 0 20px;
+        font-weight: 600;
+      }
+
+      .error-description {
+        color: var(--text-secondary);
+        margin-bottom: 30px;
+        line-height: 1.6;
+      }
+
+      .error-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+
+      .btn-error {
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .btn-error-primary {
+        background: var(--error-primary);
+        color: white;
+      }
+
+      .btn-error-primary:hover {
+        background: #dc2626;
+        transform: translateY(-2px);
+      }
+
+      .btn-error-secondary {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+      }
+
+      .btn-error-secondary:hover {
+        background: var(--bg-primary);
+        transform: translateY(-2px);
+      }
+
+      .technical-info {
+        margin: 30px 0;
+        padding: 20px;
+        background: var(--error-bg);
+        border: 1px solid var(--error-border);
+        border-radius: 12px;
+        text-align: left;
+      }
+
+      .technical-info h3 {
+        color: var(--error-primary);
+        margin: 0 0 15px;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .tech-details {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        font-family: "Courier New", monospace;
+        background: var(--bg-primary);
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        margin-top: 10px;
+      }
+
+      .quick-links {
+        margin: 30px 0;
+        padding: 20px;
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+      }
+
+      .quick-links h3 {
+        color: var(--text-primary);
+        margin: 0 0 15px;
+        font-size: 1.1rem;
+      }
+
+      .quick-links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+      }
+
+      .quick-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 10px;
+        background: var(--bg-primary);
+        border-radius: 8px;
+        text-decoration: none;
+        color: var(--text-primary);
+        transition: all 0.3s ease;
+        border: 1px solid var(--border-color);
+      }
+
+      .quick-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .quick-link i {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        color: var(--error-primary);
+      }
+
+      .quick-link span {
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+
+      .feedback-section {
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .feedback-toggle {
+        background: none;
+        border: none;
+        color: var(--error-primary);
+        cursor: pointer;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 15px;
+      }
+
+      .feedback-form {
+        display: none;
+        text-align: left;
+      }
+
+      .feedback-form.active {
+        display: block;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--text-primary);
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        resize: vertical;
+        min-height: 80px;
+        font-family: inherit;
+        font-size: 14px;
+      }
+
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--error-primary);
+      }
+
+      .submit-feedback {
+        width: 100%;
+        padding: 12px;
+        background: var(--error-primary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .submit-feedback:hover {
+        background: #dc2626;
+      }
+
+      .feedback-success {
+        display: none;
+        padding: 15px;
+        background: #10b981;
+        color: white;
+        border-radius: 8px;
+        margin-top: 15px;
+        text-align: center;
+      }
+
+      @media (max-width: 480px) {
+        .error-card {
+          padding: 30px 20px;
+          margin: 10px;
+        }
+
+        .error-header h1 {
+          font-size: 3rem;
+        }
+
+        .error-actions {
+          flex-direction: column;
+        }
+
+        .btn-error {
+          justify-content: center;
+        }
+
+        .quick-links-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="error-container">
+      <div class="error-card">
+        <div class="error-animation" id="lottie-500"></div>
+
+        <div class="error-header">
+          <h1>500</h1>
+          <p>Internal Server Error</p>
+        </div>
+
+        <div class="error-description">
+          Something went wrong on our server. Our technical team has been
+          notified and is working to fix the issue. Please try again in a few
+          moments.
+        </div>
+
+        <div class="error-actions">
+          <a
+            href="{{ url_for('dashboard') }}"
+            class="btn-error btn-error-primary"
+          >
+            <i class="fas fa-home"></i> Go to Dashboard
+          </a>
+          <button
+            onclick="location.reload()"
+            class="btn-error btn-error-secondary"
+          >
+            <i class="fas fa-redo"></i> Try Again
+          </button>
+        </div>
+
+        <div class="technical-info">
+          <h3><i class="fas fa-info-circle"></i> Technical Information</h3>
+          <div class="tech-details">
+            Error: 500 - Internal Server Error<br />
+            Time: <span id="currentTime"></span><br />
+            URL: <span id="currentUrl"></span><br />
+            Reference ID: <span id="errorId"></span>
+          </div>
+        </div>
+
+        <div class="quick-links">
+          <h3>Quick Links</h3>
+          <div class="quick-links-grid">
+            <a href="{{ url_for('dashboard') }}" class="quick-link">
+              <i class="fas fa-chart-bar"></i>
+              <span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('add_expense_page') }}" class="quick-link">
+              <i class="fas fa-plus-circle"></i>
+              <span>Add Expense</span>
+            </a>
+            <a href="{{ url_for('all_expenses_page') }}" class="quick-link">
+              <i class="fas fa-receipt"></i>
+              <span>All Expenses</span>
+            </a>
+            <a href="{{ url_for('profile_page') }}" class="quick-link">
+              <i class="fas fa-cog"></i>
+              <span>Settings</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="feedback-section">
+          <button class="feedback-toggle" onclick="toggleFeedback()">
+            <i class="fas fa-bug"></i> Report this error
+          </button>
+
+          <div class="feedback-form" id="feedbackForm">
+            <div class="form-group">
+              <label for="feedbackMessage"
+                >What were you doing when this error occurred?</label
+              >
+              <textarea
+                id="feedbackMessage"
+                placeholder="I was trying to... when the error happened."
+              ></textarea>
+            </div>
+            <button class="submit-feedback" onclick="submitFeedback()">
+              Submit Error Report
+            </button>
+          </div>
+
+          <div class="feedback-success" id="feedbackSuccess">
+            <i class="fas fa-check-circle"></i> Thank you for reporting this
+            issue!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Initialize Lottie animation
+      lottie.loadAnimation({
+        container: document.getElementById("lottie-500"),
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        path: "https://assets1.lottiefiles.com/packages/lf20_gns0r2bv.json",
+      });
+
+      // Generate error ID and set technical info
+      function generateErrorId() {
+        return "ERR_" + Math.random().toString(36).substr(2, 9).toUpperCase();
+      }
+
+      function setTechnicalInfo() {
+        document.getElementById("currentTime").textContent =
+          new Date().toLocaleString();
+        document.getElementById("currentUrl").textContent =
+          window.location.href;
+        document.getElementById("errorId").textContent = generateErrorId();
+      }
+
+      // Theme detection
+      function detectTheme() {
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        const savedTheme = localStorage.getItem("user_theme");
+        const theme = savedTheme || (prefersDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+
+      // Feedback form toggle
+      function toggleFeedback() {
+        const form = document.getElementById("feedbackForm");
+        const toggle = document.querySelector(".feedback-toggle");
+
+        if (form.classList.contains("active")) {
+          form.classList.remove("active");
+          toggle.innerHTML = '<i class="fas fa-bug"></i> Report this error';
+        } else {
+          form.classList.add("active");
+          toggle.innerHTML = '<i class="fas fa-times"></i> Close report';
+        }
+      }
+
+      // Submit feedback
+      function submitFeedback() {
+        const message = document.getElementById("feedbackMessage").value;
+        const success = document.getElementById("feedbackSuccess");
+        const errorId = document.getElementById("errorId").textContent;
+
+        if (!message.trim()) {
+          alert("Please describe what you were doing when the error occurred.");
+          return;
+        }
+
+        // In a real application, you would send this to your backend
+        console.log("Error feedback:", {
+          error: "500",
+          errorId: errorId,
+          message: message,
+          url: window.location.href,
+          userAgent: navigator.userAgent,
+          timestamp: new Date().toISOString(),
+        });
+
+        // Show success message
+        success.style.display = "block";
+        document.getElementById("feedbackMessage").value = "";
+
+        // Hide form after success
+        setTimeout(() => {
+          toggleFeedback();
+          success.style.display = "none";
+        }, 3000);
+      }
+
+      // Initialize on load
+      document.addEventListener("DOMContentLoaded", function () {
+        detectTheme();
+        setTechnicalInfo();
+      });
+
+      // Listen for theme changes
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", detectTheme);
+    </script>
+  </body>
+</html>
