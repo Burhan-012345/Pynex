@@ -1,0 +1,140 @@
+{% extends "dashboard/intro.html" %} {% block content %}
+
+<style>
+  .features-grid {
+    display: grid;
+    gap: 25px;
+    margin: 30px 0;
+  }
+
+  .feature-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .feature-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #4a6cf7, #3a5bd9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 24px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #4a6cf7, #3a5bd9);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 108, 247, 0.4);
+  }
+</style>
+<div class="container" style="padding-top: 120px; min-height: 80vh">
+  <div class="section-title">
+    <h2>About Pynex</h2>
+    <p>
+      Learn more about our mission, vision, and the team behind your smart
+      expense tracker
+    </p>
+  </div>
+
+  <div
+    class="feature-card"
+    style="max-width: 800px; margin: 0 auto; text-align: left"
+  >
+    <h3>Our Mission</h3>
+    <p>
+      At Pynex, we believe that financial freedom should be accessible to
+      everyone. Our mission is to simplify personal finance management through
+      intuitive tools and smart insights that help you make better financial
+      decisions.
+    </p>
+
+    <h3>Our Story</h3>
+    <p>
+      Founded in 2023, Pynex was born from a simple observation: most people
+      struggle to understand where their money goes. Traditional expense
+      tracking methods are often cumbersome and time-consuming. We set out to
+      change that by creating a solution that's both powerful and easy to use.
+    </p>
+
+    <h3>What Makes Pynex Different</h3>
+    <ul>
+      <li>
+        <strong>Smart Insights:</strong> AI-powered analysis of your spending
+        patterns
+      </li>
+      <li>
+        <strong>Beautiful Design:</strong> Intuitive interface that makes
+        finance management enjoyable
+      </li>
+      <li>
+        <strong>Privacy First:</strong> Your financial data is always secure and
+        private
+      </li>
+      <li>
+        <strong>Cross-Platform:</strong> Access your finances from any device,
+        anywhere
+      </li>
+    </ul>
+
+    <h3>Our Values</h3>
+    <div
+      class="features-grid"
+      style="
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        margin-top: 30px;
+      "
+    >
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h4>Security</h4>
+        <p>Bank-level encryption and privacy protection for your data</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-lightbulb"></i>
+        </div>
+        <h4>Innovation</h4>
+        <p>Continuous improvement through user feedback and technology</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <h4>Community</h4>
+        <p>Building tools that serve real people with real financial needs</p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px">
+      <a href="{{ url_for('register_page') }}" class="btn btn-primary"
+        >Join Pynex Today</a
+      >
+    </div>
+  </div>
+</div>
+{% endblock %}

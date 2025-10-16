@@ -1,0 +1,208 @@
+{% extends "dashboard/intro.html" %} {% block content %}
+
+<style>
+  .features-grid {
+    display: grid;
+    gap: 25px;
+    margin: 30px 0;
+  }
+
+  .feature-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .feature-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #4a6cf7, #3a5bd9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 24px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #4a6cf7, #3a5bd9);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 108, 247, 0.4);
+  }
+
+  .btn-outline-light {
+    background: transparent;
+    color: #4a6cf7;
+    border: 2px solid #4a6cf7;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-light:hover {
+    background: #4a6cf7;
+    color: white;
+    transform: translateY(-2px);
+  }
+</style>
+<div class="container" style="padding-top: 120px; min-height: 80vh">
+  <div class="section-title">
+    <h2>Careers at Pynex</h2>
+    <p>
+      Join our team and help shape the future of personal finance management
+    </p>
+  </div>
+
+  <div
+    class="feature-card"
+    style="max-width: 800px; margin: 0 auto; text-align: left"
+  >
+    <h3>Why Work With Us?</h3>
+    <p>
+      At Pynex, we're building more than just an expense tracker - we're
+      creating tools that empower people to achieve financial wellness. Join us
+      in our mission to make financial management accessible and enjoyable for
+      everyone.
+    </p>
+
+    <div
+      class="features-grid"
+      style="
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        margin: 30px 0;
+      "
+    >
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-rocket"></i>
+        </div>
+        <h4>Impact</h4>
+        <p>
+          Your work will directly help thousands of users improve their
+          financial health
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-heart"></i>
+        </div>
+        <h4>Great Culture</h4>
+        <p>Collaborative environment with focus on work-life balance</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <h4>Growth</h4>
+        <p>Continuous learning opportunities and career development</p>
+      </div>
+    </div>
+
+    <h3>Current Openings</h3>
+    <div class="feature-card" style="margin: 20px 0; text-align: left">
+      <h4>Senior Full Stack Developer</h4>
+      <p><strong>Location:</strong> Remote</p>
+      <p><strong>Experience:</strong> 3+ years</p>
+      <p>
+        We're looking for an experienced developer to help us scale our platform
+        and build new features.
+      </p>
+      <ul>
+        <li>Develop and maintain web applications using Python/Flask</li>
+        <li>Implement responsive front-end designs</li>
+        <li>Work with databases and API integrations</li>
+        <li>Collaborate with product team on feature development</li>
+      </ul>
+      <a
+        href="mailto:careers@pynex.com?subject=Application: Senior Full Stack Developer"
+        class="btn btn-primary"
+        >Apply Now</a
+      >
+    </div>
+
+    <div class="feature-card" style="margin: 20px 0; text-align: left">
+      <h4>Product Designer</h4>
+      <p><strong>Location:</strong> Remote</p>
+      <p><strong>Experience:</strong> 2+ years</p>
+      <p>
+        Help us create beautiful, intuitive user experiences for our financial
+        tools.
+      </p>
+      <ul>
+        <li>Design user interfaces and experiences</li>
+        <li>Create prototypes and conduct user testing</li>
+        <li>Collaborate with development team on implementation</li>
+        <li>Develop and maintain design system</li>
+      </ul>
+      <a
+        href="mailto:careers@pynex.com?subject=Application: Product Designer"
+        class="btn btn-primary"
+        >Apply Now</a
+      >
+    </div>
+
+    <div class="feature-card" style="margin: 20px 0; text-align: left">
+      <h4>Growth Marketing Specialist</h4>
+      <p><strong>Location:</strong> Remote</p>
+      <p><strong>Experience:</strong> 2+ years</p>
+      <p>Help us reach more users and communicate the value of Pynex.</p>
+      <ul>
+        <li>Develop and execute marketing campaigns</li>
+        <li>Analyze user acquisition metrics</li>
+        <li>Create engaging content for various channels</li>
+        <li>Optimize conversion funnels</li>
+      </ul>
+      <a
+        href="mailto:careers@pynex.com?subject=Application: Growth Marketing Specialist"
+        class="btn btn-primary"
+        >Apply Now</a
+      >
+    </div>
+
+    <div
+      style="
+        text-align: center;
+        margin-top: 40px;
+        padding: 30px;
+        background: #f8f9fa;
+        border-radius: 10px;
+      "
+    >
+      <h4>Don't see the perfect role?</h4>
+      <p>
+        We're always looking for talented people who share our passion for
+        financial technology.
+      </p>
+      <a
+        href="mailto:careers@pynex.com"
+        class="btn btn-outline-light"
+        style="color: #4a6cf7; border-color: #4a6cf7"
+        >Send Us Your Resume</a
+      >
+    </div>
+  </div>
+</div>
+{% endblock %}

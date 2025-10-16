@@ -1,0 +1,238 @@
+{% extends "dashboard/intro.html" %} {% block content %}
+
+<style>
+  .features-grid {
+    display: grid;
+    gap: 25px;
+    margin-bottom: 50px;
+  }
+
+  .feature-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .feature-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #4a6cf7, #3a5bd9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 24px;
+  }
+
+  .btn-login {
+    background: transparent;
+    color: #4a6cf7;
+    border: 2px solid #4a6cf7;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+
+  .btn-login:hover {
+    background: #4a6cf7;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #4a6cf7, #3a5bd9);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 108, 247, 0.4);
+  }
+
+  .social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .social-links a {
+    width: 40px;
+    height: 40px;
+    background: #4a6cf7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .social-links a:hover {
+    transform: translateY(-3px);
+    background: #3a5bd9;
+  }
+</style>
+<div class="container" style="padding-top: 120px; min-height: 80vh">
+  <div class="section-title">
+    <h2>Contact Us</h2>
+    <p>Get in touch with our team - we're here to help</p>
+  </div>
+
+  <div
+    class="features-grid"
+    style="
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      margin-bottom: 50px;
+    "
+  >
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-envelope"></i>
+      </div>
+      <h3>Email Us</h3>
+      <p>For general inquiries and support</p>
+      <a href="mailto:support@pynex.com" class="btn btn-login"
+        >support@pynex.com</a
+      >
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-comments"></i>
+      </div>
+      <h3>Live Chat</h3>
+      <p>Get instant help from our support team</p>
+      <button class="btn btn-primary" onclick="alert('Live chat coming soon!')">
+        Start Chat
+      </button>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-file-alt"></i>
+      </div>
+      <h3>Help Center</h3>
+      <p>Find answers in our knowledge base</p>
+      <a href="{{ url_for('help_center_page') }}" class="btn btn-login"
+        >Visit Help Center</a
+      >
+    </div>
+  </div>
+
+  <div class="feature-card" style="max-width: 600px; margin: 0 auto">
+    <h3>Send us a Message</h3>
+    <form id="contactForm" style="text-align: left">
+      <div style="margin-bottom: 20px">
+        <label style="display: block; margin-bottom: 5px; font-weight: bold"
+          >Name</label
+        >
+        <input
+          type="text"
+          style="
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+          "
+          required
+        />
+      </div>
+
+      <div style="margin-bottom: 20px">
+        <label style="display: block; margin-bottom: 5px; font-weight: bold"
+          >Email</label
+        >
+        <input
+          type="email"
+          style="
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+          "
+          required
+        />
+      </div>
+
+      <div style="margin-bottom: 20px">
+        <label style="display: block; margin-bottom: 5px; font-weight: bold"
+          >Subject</label
+        >
+        <select
+          style="
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+          "
+        >
+          <option>General Inquiry</option>
+          <option>Technical Support</option>
+          <option>Feature Request</option>
+          <option>Partnership</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 20px">
+        <label style="display: block; margin-bottom: 5px; font-weight: bold"
+          >Message</label
+        >
+        <textarea
+          style="
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            height: 150px;
+          "
+          required
+        ></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%">
+        Send Message
+      </button>
+    </form>
+  </div>
+
+  <div style="text-align: center; margin-top: 50px">
+    <h3>Follow Us</h3>
+    <div class="social-links" style="justify-content: center">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </div>
+</div>
+
+<script>
+  document
+    .getElementById("contactForm")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("Thank you for your message! We will get back to you soon.");
+      this.reset();
+    });
+</script>
+{% endblock %}
