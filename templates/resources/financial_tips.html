@@ -1,0 +1,196 @@
+{% extends "dashboard/intro.html" %} {% block content %}
+
+<style>
+  .features-grid {
+    display: grid;
+    gap: 25px;
+    margin: 40px 0;
+  }
+
+  .feature-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .feature-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #4a6cf7, #3a5bd9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 24px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #4a6cf7, #3a5bd9);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 108, 247, 0.4);
+  }
+</style>
+<div class="container" style="padding-top: 120px; min-height: 80vh">
+  <div class="section-title">
+    <h2>Financial Tips</h2>
+    <p>Expert advice to help you make smarter financial decisions</p>
+  </div>
+
+  <div
+    class="features-grid"
+    style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))"
+  >
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-piggy-bank"></i>
+      </div>
+      <h3>The 50/30/20 Rule</h3>
+      <p>
+        Allocate 50% of income to needs, 30% to wants, and 20% to savings. This
+        simple framework helps maintain financial balance.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-credit-card"></i>
+      </div>
+      <h3>Track Every Expense</h3>
+      <p>
+        Record all purchases, no matter how small. You'll be surprised how those
+        little expenses add up over time.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-chart-pie"></i>
+      </div>
+      <h3>Review Weekly</h3>
+      <p>
+        Set aside 15 minutes each week to review your spending. Regular
+        check-ins prevent small issues from becoming big problems.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-calendar-alt"></i>
+      </div>
+      <h3>Plan for Irregular Expenses</h3>
+      <p>
+        Set aside money each month for annual subscriptions, car maintenance, or
+        holiday gifts to avoid budget surprises.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-utensils"></i>
+      </div>
+      <h3>Reduce Dining Out</h3>
+      <p>
+        Cutting back on restaurant meals by just 2-3 times per month can save
+        hundreds of dollars annually.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-bolt"></i>
+      </div>
+      <h3>Automate Savings</h3>
+      <p>
+        Set up automatic transfers to savings accounts. If you don't see the
+        money, you're less likely to spend it.
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="feature-card"
+    style="max-width: 800px; margin: 50px auto 0; text-align: left"
+  >
+    <h3>Advanced Financial Strategies</h3>
+
+    <div style="margin: 20px 0">
+      <h4>Emergency Fund Basics</h4>
+      <p>
+        Every adult should have 3-6 months of living expenses saved in an
+        emergency fund. Start small - even ₹500-1000 per month adds up quickly.
+      </p>
+    </div>
+
+    <div style="margin: 20px 0">
+      <h4>Debt Snowball Method</h4>
+      <p>
+        List debts from smallest to largest. Pay minimums on all, but put extra
+        money toward the smallest debt first. The psychological wins keep you
+        motivated.
+      </p>
+    </div>
+
+    <div style="margin: 20px 0">
+      <h4>Smart Grocery Shopping</h4>
+      <ul>
+        <li>Always shop with a list</li>
+        <li>Never shop hungry</li>
+        <li>Buy generic brands for staple items</li>
+        <li>Use cashback and reward apps</li>
+        <li>Plan meals around weekly sales</li>
+      </ul>
+    </div>
+
+    <div style="margin: 20px 0">
+      <h4>Subscription Audit</h4>
+      <p>
+        Review all your subscriptions monthly. Cancel any you haven't used in
+        the past 30 days. The average person spends ₹2000+ annually on unused
+        subscriptions.
+      </p>
+    </div>
+
+    <div
+      style="
+        background: #e8eeff;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 30px;
+      "
+    >
+      <h4>Pro Tip: The 24-Hour Rule</h4>
+      <p>
+        For any non-essential purchase over ₹2000, wait 24 hours before buying.
+        This cooling-off period prevents impulse purchases you might regret.
+      </p>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-top: 50px">
+    <p>Want personalized financial advice?</p>
+    <a href="{{ url_for('register_page') }}" class="btn btn-primary"
+      >Start Tracking with Pynex</a
+    >
+  </div>
+</div>
+{% endblock %}

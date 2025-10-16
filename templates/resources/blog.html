@@ -1,0 +1,224 @@
+{% extends "dashboard/intro.html" %} {% block content %}
+
+<style>
+  .features-grid {
+    display: grid;
+    gap: 30px;
+    margin-top: 40px;
+  }
+
+  .feature-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-login {
+    background: linear-gradient(135deg, #4a6cf7, #3a5bd9);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+
+  .btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 108, 247, 0.4);
+  }
+</style>
+<div class="container" style="padding-top: 120px; min-height: 80vh">
+  <div class="section-title">
+    <h2>Pynex Blog</h2>
+    <p>Tips, insights, and updates on personal finance management</p>
+  </div>
+
+  <div
+    class="features-grid"
+    style="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr))"
+  >
+    <div class="feature-card" style="text-align: left">
+      <div
+        style="
+          height: 200px;
+          background: linear-gradient(135deg, #4a6cf7, #3a5bd9);
+          border-radius: 10px;
+          margin-bottom: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+        "
+      >
+        <i class="fas fa-piggy-bank" style="font-size: 48px"></i>
+      </div>
+      <h3>5 Simple Ways to Save Money Each Month</h3>
+      <p
+        class="meta"
+        style="color: #666; font-size: 0.9rem; margin-bottom: 15px"
+      >
+        Published on November 15, 2023 • 5 min read
+      </p>
+      <p>
+        Discover practical strategies to build your savings without drastically
+        changing your lifestyle. Small changes can lead to big results over
+        time.
+      </p>
+      <a href="#" class="btn btn-login" style="margin-top: 15px">Read More</a>
+    </div>
+
+    <div class="feature-card" style="text-align: left">
+      <div
+        style="
+          height: 200px;
+          background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+          border-radius: 10px;
+          margin-bottom: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+        "
+      >
+        <i class="fas fa-chart-line" style="font-size: 48px"></i>
+      </div>
+      <h3>Understanding Your Spending Patterns</h3>
+      <p
+        class="meta"
+        style="color: #666; font-size: 0.9rem; margin-bottom: 15px"
+      >
+        Published on November 8, 2023 • 7 min read
+      </p>
+      <p>
+        Learn how to analyze your expense data to identify trends and
+        opportunities for optimization in your budget.
+      </p>
+      <a href="#" class="btn btn-login" style="margin-top: 15px">Read More</a>
+    </div>
+
+    <div class="feature-card" style="text-align: left">
+      <div
+        style="
+          height: 200px;
+          background: linear-gradient(135deg, #51cf66, #40c057);
+          border-radius: 10px;
+          margin-bottom: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+        "
+      >
+        <i class="fas fa-mobile-alt" style="font-size: 48px"></i>
+      </div>
+      <h3>How Technology is Changing Personal Finance</h3>
+      <p
+        class="meta"
+        style="color: #666; font-size: 0.9rem; margin-bottom: 15px"
+      >
+        Published on November 1, 2023 • 6 min read
+      </p>
+      <p>
+        Explore the latest trends in fintech and how tools like Pynex are making
+        financial management more accessible than ever.
+      </p>
+      <a href="#" class="btn btn-login" style="margin-top: 15px">Read More</a>
+    </div>
+
+    <div class="feature-card" style="text-align: left">
+      <div
+        style="
+          height: 200px;
+          background: linear-gradient(135deg, #cc5de8, #be4bdb);
+          border-radius: 10px;
+          margin-bottom: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+        "
+      >
+        <i class="fas fa-gem" style="font-size: 48px"></i>
+      </div>
+      <h3>Setting Financial Goals That Actually Work</h3>
+      <p
+        class="meta"
+        style="color: #666; font-size: 0.9rem; margin-bottom: 15px"
+      >
+        Published on October 25, 2023 • 8 min read
+      </p>
+      <p>
+        A guide to creating achievable financial goals and tracking your
+        progress effectively using modern tools.
+      </p>
+      <a href="#" class="btn btn-login" style="margin-top: 15px">Read More</a>
+    </div>
+
+    <div class="feature-card" style="text-align: left">
+      <div
+        style="
+          height: 200px;
+          background: linear-gradient(135deg, #f59f00, #e67700);
+          border-radius: 10px;
+          margin-bottom: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+        "
+      >
+        <i class="fas fa-shield-alt" style="font-size: 48px"></i>
+      </div>
+      <h3>Protecting Your Financial Data Online</h3>
+      <p
+        class="meta"
+        style="color: #666; font-size: 0.9rem; margin-bottom: 15px"
+      >
+        Published on October 18, 2023 • 5 min read
+      </p>
+      <p>
+        Essential security practices to keep your financial information safe in
+        the digital age.
+      </p>
+      <a href="#" class="btn btn-login" style="margin-top: 15px">Read More</a>
+    </div>
+
+    <div class="feature-card" style="text-align: left">
+      <div
+        style="
+          height: 200px;
+          background: linear-gradient(135deg, #339af0, #228be6);
+          border-radius: 10px;
+          margin-bottom: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+        "
+      >
+        <i class="fas fa-hand-holding-usd" style="font-size: 48px"></i>
+      </div>
+      <h3>The Psychology of Spending</h3>
+      <p
+        class="meta"
+        style="color: #666; font-size: 0.9rem; margin-bottom: 15px"
+      >
+        Published on October 11, 2023 • 9 min read
+      </p>
+      <p>
+        Understand the emotional and psychological factors that influence your
+        spending decisions and how to manage them.
+      </p>
+      <a href="#" class="btn btn-login" style="margin-top: 15px">Read More</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,233 @@
+{% extends "dashboard/intro.html" %} {% block content %}
+
+<style>
+  .feature-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .faq-section {
+    margin-bottom: 30px;
+  }
+
+  .faq-item {
+    transition: background-color 0.3s ease;
+    padding: 15px;
+    border-radius: 8px;
+  }
+
+  .faq-item:hover {
+    background-color: #f8f9fa;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #4a6cf7, #3a5bd9);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 108, 247, 0.4);
+  }
+</style>
+<div class="container" style="padding-top: 120px; min-height: 80vh">
+  <div class="section-title">
+    <h2>Help Center</h2>
+    <p>
+      Find answers to common questions and learn how to make the most of Pynex
+    </p>
+  </div>
+
+  <div class="feature-card" style="max-width: 800px; margin: 0 auto">
+    <div style="text-align: center; margin-bottom: 30px">
+      <input
+        type="text"
+        placeholder="Search for help..."
+        style="
+          width: 100%;
+          max-width: 400px;
+          padding: 12px;
+          border: 2px solid #eaeaea;
+          border-radius: 25px;
+          font-size: 16px;
+        "
+      />
+    </div>
+
+    <h3>Getting Started</h3>
+    <div class="faq-section">
+      <div
+        class="faq-item"
+        style="
+          margin-bottom: 15px;
+          border-bottom: 1px solid #eee;
+          padding-bottom: 15px;
+        "
+      >
+        <h4 style="margin-bottom: 10px">How do I create my first expense?</h4>
+        <p>
+          To create your first expense, click on "Add Expense" in the dashboard,
+          fill in the amount, category, and description, then click "Save".
+        </p>
+      </div>
+
+      <div
+        class="faq-item"
+        style="
+          margin-bottom: 15px;
+          border-bottom: 1px solid #eee;
+          padding-bottom: 15px;
+        "
+      >
+        <h4 style="margin-bottom: 10px">Can I import data from other apps?</h4>
+        <p>
+          Currently, we support CSV imports. Go to Settings → Import Data to
+          upload your expense files from other applications.
+        </p>
+      </div>
+
+      <div
+        class="faq-item"
+        style="
+          margin-bottom: 15px;
+          border-bottom: 1px solid #eee;
+          padding-bottom: 15px;
+        "
+      >
+        <h4 style="margin-bottom: 10px">How do I set up budgets?</h4>
+        <p>
+          Budget features are coming in our next update! You'll be able to set
+          monthly budgets for different categories and receive alerts.
+        </p>
+      </div>
+    </div>
+
+    <h3>Account & Settings</h3>
+    <div class="faq-section">
+      <div
+        class="faq-item"
+        style="
+          margin-bottom: 15px;
+          border-bottom: 1px solid #eee;
+          padding-bottom: 15px;
+        "
+      >
+        <h4 style="margin-bottom: 10px">How do I reset my password?</h4>
+        <p>
+          Click "Forgot Password" on the login page, enter your email, and
+          follow the instructions sent to your inbox.
+        </p>
+      </div>
+
+      <div
+        class="faq-item"
+        style="
+          margin-bottom: 15px;
+          border-bottom: 1px solid #eee;
+          padding-bottom: 15px;
+        "
+      >
+        <h4 style="margin-bottom: 10px">
+          Can I use Pynex on multiple devices?
+        </h4>
+        <p>
+          Yes! Pynex syncs your data across all your devices. Just log in with
+          your account on any device.
+        </p>
+      </div>
+
+      <div
+        class="faq-item"
+        style="
+          margin-bottom: 15px;
+          border-bottom: 1px solid #eee;
+          padding-bottom: 15px;
+        "
+      >
+        <h4 style="margin-bottom: 10px">How do I delete my account?</h4>
+        <p>
+          Go to Settings → Account → Delete Account. Please note this action is
+          permanent and cannot be undone.
+        </p>
+      </div>
+    </div>
+
+    <h3>Features & Functionality</h3>
+    <div class="faq-section">
+      <div
+        class="faq-item"
+        style="
+          margin-bottom: 15px;
+          border-bottom: 1px solid #eee;
+          padding-bottom: 15px;
+        "
+      >
+        <h4 style="margin-bottom: 10px">
+          How does the AI insights feature work?
+        </h4>
+        <p>
+          Our AI analyzes your spending patterns and provides personalized
+          recommendations to help you save money and optimize your budget.
+        </p>
+      </div>
+
+      <div
+        class="faq-item"
+        style="
+          margin-bottom: 15px;
+          border-bottom: 1px solid #eee;
+          padding-bottom: 15px;
+        "
+      >
+        <h4 style="margin-bottom: 10px">Can I export my data?</h4>
+        <p>
+          Yes! You can export your expense data as CSV or PDF from the Reports
+          section of your dashboard.
+        </p>
+      </div>
+
+      <div
+        class="faq-item"
+        style="
+          margin-bottom: 15px;
+          border-bottom: 1px solid #eee;
+          padding-bottom: 15px;
+        "
+      >
+        <h4 style="margin-bottom: 10px">Are there mobile apps available?</h4>
+        <p>
+          Mobile apps for iOS and Android are currently in development and will
+          be released in early 2024.
+        </p>
+      </div>
+    </div>
+
+    <div
+      style="
+        text-align: center;
+        margin-top: 40px;
+        padding: 30px;
+        background: #f8f9fa;
+        border-radius: 10px;
+      "
+    >
+      <h4>Still need help?</h4>
+      <p>
+        Our support team is here to assist you with any questions or issues.
+      </p>
+      <a href="{{ url_for('contact_page') }}" class="btn btn-primary"
+        >Contact Support</a
+      >
+    </div>
+  </div>
+</div>
+{% endblock %}
