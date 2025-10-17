@@ -1188,3 +1188,164 @@
     background: white !important;
   }
 }
+
+/* Verify OTP Specific Styles */
+.verify-otp-info {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeIn 0.8s ease-out 0.5s both;
+}
+
+.otp-tips {
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.otp-tips h4 {
+  color: white;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.otp-tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.otp-tips li {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 10px;
+  padding-left: 20px;
+  position: relative;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.otp-tips li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #4cc9f0;
+  font-weight: bold;
+  animation: bounceIn 0.5s ease-out;
+}
+
+.otp-security-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  animation: pulse 2s infinite;
+}
+
+.otp-security-badge i {
+  font-size: 1.5rem;
+  color: #4cc9f0;
+}
+
+.otp-security-badge span {
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Countdown timer for OTP */
+.otp-timer {
+  text-align: center;
+  margin: 15px 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.otp-timer.expiring {
+  color: #f72585;
+  animation: pulse 1s infinite;
+}
+
+/* OTP input focus states */
+.otp-input:valid {
+  border-color: #28a745 !important;
+  animation: validPulse 0.5s ease;
+}
+
+.otp-input:invalid:not(:placeholder-shown) {
+  border-color: #dc3545 !important;
+  animation: shake 0.5s ease;
+}
+
+/* Resend OTP link styling */
+.auth-links a[onclick*="resendOTP"] {
+  color: #4cc9f0 !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.auth-links a[onclick*="resendOTP"]:hover {
+  color: #f72585 !important;
+  transform: translateY(-1px);
+}
+
+/* Success state for OTP verification */
+.otp-success {
+  text-align: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  border-radius: 10px;
+  margin: 20px 0;
+  animation: successPulse 2s ease-out;
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Mobile responsiveness for OTP page */
+@media (max-width: 768px) {
+  .verify-otp-info {
+    margin: 15px 0;
+    padding: 15px;
+  }
+
+  .otp-tips {
+    margin-top: 20px;
+    padding-top: 15px;
+  }
+
+  .otp-tips h4 {
+    font-size: 1rem;
+  }
+
+  .otp-tips li {
+    font-size: 0.85rem;
+  }
+
+  .otp-security-badge {
+    padding: 12px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
