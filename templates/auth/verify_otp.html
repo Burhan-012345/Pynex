@@ -1,37 +1,79 @@
 {% extends "layout.html" %} {% block content %}
 <div class="auth-container">
-  <div class="auth-card">
-    <div class="auth-header">
-      <h1>Verify OTP</h1>
-      <p>Enter the 6-digit code sent to your email</p>
+  <div class="auth-layout">
+    <!-- Left Side - Image Section -->
+    <div class="auth-left">
+      <div class="auth-image">
+        <img
+          src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+          alt="Expense Tracker"
+        />
+        <link
+          rel="stylesheet"
+          href="{{ url_for('static', filename='css/auth.css') }}"
+        />
+        <div class="image-overlay">
+          <div class="overlay-content">
+            <h2>Secure Verification</h2>
+            <p>
+              Protect your account with our secure OTP verification system. Your
+              security is our top priority.
+            </p>
+            <div class="features-list">
+              <div class="feature-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Enhanced Security</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-clock"></i>
+                <span>Time-Sensitive Code</span>
+              </div>
+              <div class="feature-item">
+                <i class="fas fa-user-lock"></i>
+                <span>Account Protection</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <form id="verifyOtpForm">
-      <input type="hidden" name="email" value="{{ email }}" />
-      <input type="hidden" name="purpose" value="{{ purpose }}" />
+    <!-- Right Side - Form Section -->
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h1>Verify OTP</h1>
+          <p>Enter the 6-digit code sent to your email</p>
+        </div>
 
-      <div class="form-group">
-        <label for="otp">OTP Code</label>
-        <input
-          type="text"
-          class="form-control otp-input"
-          id="otp"
-          name="otp"
-          maxlength="6"
-          required
-          pattern="[0-9]{6}"
-          title="Please enter exactly 6 digits"
-        />
+        <form id="verifyOtpForm">
+          <input type="hidden" name="email" value="{{ email }}" />
+          <input type="hidden" name="purpose" value="{{ purpose }}" />
+
+          <div class="form-group">
+            <label for="otp">OTP Code</label>
+            <input
+              type="text"
+              class="form-control otp-input"
+              id="otp"
+              name="otp"
+              maxlength="6"
+              required
+              pattern="[0-9]{6}"
+              title="Please enter exactly 6 digits"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            {% if purpose == 'register' %} Verify Account {% else %} Verify
+            Reset {% endif %}
+          </button>
+        </form>
+
+        <div class="auth-links">
+          <a href="#" onclick="resendOTP()">Resend OTP</a>
+        </div>
       </div>
-
-      <button type="submit" class="btn btn-primary">
-        {% if purpose == 'register' %} Verify Account {% else %} Verify Reset {%
-        endif %}
-      </button>
-    </form>
-
-    <div class="auth-links">
-      <a href="#" onclick="resendOTP()">Resend OTP</a>
     </div>
   </div>
 </div>
