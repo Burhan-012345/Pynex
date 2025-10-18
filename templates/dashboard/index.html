@@ -1,136 +1,262 @@
 {% extends "dashboard/base.html" %} {% block dashboard_content %}
-<div class="welcome-section">
-  <h1>Welcome to Pynex, {{ user_name }}! 👋</h1>
-  <p>Track your expenses and manage your finances effectively.</p>
-</div>
-
-<!-- Stats Grid -->
-<div class="stats-grid">
-  <div class="stat-card">
-    <div class="stat-icon">
-      <i class="fas fa-receipt"></i>
+<!-- Loading Screen -->
+<div id="loadingScreen" class="loading-screen">
+  <div class="loading-content">
+    <div class="logo-container">
+      <!-- Logo SVG - Letter P -->
+      <svg
+        class="logo"
+        width="80"
+        height="80"
+        viewBox="0 0 80 80"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4361ee" />
+            <stop offset="100%" stop-color="#3a56d4" />
+          </linearGradient>
+        </defs>
+        <rect width="80" height="80" rx="20" fill="url(#logoGradient)" />
+        <path
+          d="M25 20 L25 60 M25 20 L45 20 Q55 20 55 30 Q55 40 45 40 L25 40"
+          stroke="white"
+          stroke-width="8"
+          fill="none"
+          stroke-linecap="round"
+        />
+      </svg>
     </div>
-    <h3>₹{{ "%.2f"|format(total_expenses) }}</h3>
-    <p>Total Expenses</p>
-  </div>
-  <div class="stat-card">
-    <div class="stat-icon">
-      <i class="fas fa-calendar-day"></i>
-    </div>
-    <h3 id="thisMonthTotal">₹0.00</h3>
-    <p>This Month</p>
-  </div>
-  <div class="stat-card">
-    <div class="stat-icon">
-      <i class="fas fa-tags"></i>
-    </div>
-    <h3 id="totalCategories">0</h3>
-    <p>Categories</p>
-  </div>
-  <div class="stat-card">
-    <div class="stat-icon">
-      <i class="fas fa-chart-line"></i>
-    </div>
-    <h3 id="avgDaily">₹0.00</h3>
-    <p>Avg Daily</p>
+    <h1 class="website-name">Pynex</h1>
+    <p class="tagline">Track Smart, Save Smarter</p>
+    <div class="loading-spinner"></div>
   </div>
 </div>
 
-<!-- Quick Actions -->
-<div class="quick-actions">
-  <h2>Quick Actions</h2>
-  <div class="action-buttons">
-    <a href="{{ url_for('add_expense_page') }}" class="btn btn-primary">
-      <i class="fas fa-plus"></i> Add Expense
-    </a>
-    <a href="{{ url_for('all_expenses_page') }}" class="btn btn-secondary">
-      <i class="fas fa-list"></i> View All Expenses
-    </a>
-    <button class="btn btn-info" onclick="exportCSV()">
-      <i class="fas fa-file-csv"></i> Export CSV
-    </button>
-    <button class="btn btn-warning" onclick="exportPDF()">
-      <i class="fas fa-file-pdf"></i> Export PDF
-    </button>
+<div class="dashboard-content" id="dashboardContent" style="display: none">
+  <!-- Your existing dashboard content remains the same -->
+  <div class="welcome-section">
+    <h1>Welcome to Pynex, {{ user_name }}! 👋</h1>
+    <p>Track your expenses and manage your finances effectively.</p>
   </div>
-</div>
 
-<!-- Charts Section -->
-<div class="charts-section">
-  <div class="chart-container">
-    <div class="chart-card">
-      <h3>Monthly Expenses</h3>
-      <canvas id="monthlyChart"></canvas>
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-receipt"></i>
+      </div>
+      <h3>₹{{ "%.2f"|format(total_expenses) }}</h3>
+      <p>Total Expenses</p>
     </div>
-    <div class="chart-card">
-      <h3>Spending by Category</h3>
-      <canvas id="categoryChart"></canvas>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-calendar-day"></i>
+      </div>
+      <h3 id="thisMonthTotal">₹0.00</h3>
+      <p>This Month</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-tags"></i>
+      </div>
+      <h3 id="totalCategories">0</h3>
+      <p>Categories</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <h3 id="avgDaily">₹0.00</h3>
+      <p>Avg Daily</p>
     </div>
   </div>
-</div>
 
-<!-- AI Insights Section -->
-<div class="ai-insights-section">
-  <div class="insights-card">
-    <div class="insights-header">
-      <h3><i class="fas fa-robot"></i> AI Spending Insights</h3>
-      <button class="btn btn-sm btn-primary" onclick="refreshInsights()">
-        <i class="fas fa-sync-alt"></i> Refresh
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h2>Quick Actions</h2>
+    <div class="action-buttons">
+      <a href="{{ url_for('add_expense_page') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add Expense
+      </a>
+      <a href="{{ url_for('all_expenses_page') }}" class="btn btn-secondary">
+        <i class="fas fa-list"></i> View All Expenses
+      </a>
+      <button class="btn btn-info" onclick="exportCSV()">
+        <i class="fas fa-file-csv"></i> Export CSV
+      </button>
+      <button class="btn btn-warning" onclick="exportPDF()">
+        <i class="fas fa-file-pdf"></i> Export PDF
       </button>
     </div>
-    <div id="insightsContent">
-      <div class="loading-insights">
-        <i class="fas fa-spinner fa-spin"></i>
-        <p>Analyzing your spending patterns...</p>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-section">
+    <div class="chart-container">
+      <div class="chart-card">
+        <h3>Monthly Expenses</h3>
+        <canvas id="monthlyChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Spending by Category</h3>
+        <canvas id="categoryChart"></canvas>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Recent Activity -->
-<div class="recent-activity-section">
-  <h2>Recent Activity</h2>
-  <div class="activity-cards" id="activityCards">
-    <!-- Activity cards will be loaded here -->
-  </div>
-</div>
-
-<!-- Recent Expenses -->
-<div class="expenses-list">
-  <div class="section-header">
-    <h2>Recent Expenses</h2>
-    <a href="{{ url_for('all_expenses_page') }}" class="btn btn-secondary">
-      View All
-    </a>
-  </div>
-  <div id="expensesList">
-    {% for expense in expenses %}
-    <div class="expense-item">
-      <div class="expense-info">
-        <div class="expense-amount">₹{{ "%.2f"|format(expense.amount) }}</div>
-        <span class="expense-category expense-{{ expense.category.lower() }}">
-          {{ expense.category }}
-        </span>
-        <div class="expense-description">
-          {{ expense.description or 'No description' }}
-        </div>
-        <small class="expense-date">
-          {{ expense.date.strftime('%Y-%m-%d') }}
-        </small>
-      </div>
-      <div class="expense-actions">
-        <button class="delete-btn" onclick="deleteExpense('{{ expense.id }}')">
-          <i class="fas fa-trash"></i>
+  <!-- AI Insights Section -->
+  <div class="ai-insights-section">
+    <div class="insights-card">
+      <div class="insights-header">
+        <h3><i class="fas fa-robot"></i> AI Spending Insights</h3>
+        <button class="btn btn-sm btn-primary" onclick="refreshInsights()">
+          <i class="fas fa-sync-alt"></i> Refresh
         </button>
       </div>
+      <div id="insightsContent">
+        <div class="loading-insights">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Analyzing your spending patterns...</p>
+        </div>
+      </div>
     </div>
-    {% else %}
-    <p>No expenses recorded yet. Start by adding your first expense!</p>
-    {% endfor %}
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="recent-activity-section">
+    <h2>Recent Activity</h2>
+    <div class="activity-cards" id="activityCards">
+      <!-- Activity cards will be loaded here -->
+    </div>
+  </div>
+
+  <!-- Recent Expenses -->
+  <div class="expenses-list">
+    <div class="section-header">
+      <h2>Recent Expenses</h2>
+      <a href="{{ url_for('all_expenses_page') }}" class="btn btn-secondary">
+        View All
+      </a>
+    </div>
+    <div id="expensesList">
+      {% for expense in expenses %}
+      <div class="expense-item">
+        <div class="expense-info">
+          <div class="expense-amount">₹{{ "%.2f"|format(expense.amount) }}</div>
+          <span class="expense-category expense-{{ expense.category.lower() }}">
+            {{ expense.category }}
+          </span>
+          <div class="expense-description">
+            {{ expense.description or 'No description' }}
+          </div>
+          <small class="expense-date">
+            {{ expense.date.strftime('%Y-%m-%d') }}
+          </small>
+        </div>
+        <div class="expense-actions">
+          <button
+            class="delete-btn"
+            onclick="deleteExpense('{{ expense.id }}')"
+          >
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+      {% else %}
+      <p>No expenses recorded yet. Start by adding your first expense!</p>
+      {% endfor %}
+    </div>
   </div>
 </div>
 
 <style>
+  /* Loading Screen Styles */
+  .loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+
+  .loading-content {
+    text-align: center;
+    color: white;
+    animation: fadeInUp 0.8s ease;
+  }
+
+  .logo-container {
+    margin-bottom: 20px;
+  }
+
+  .logo {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    animation: pulse 2s infinite ease-in-out;
+  }
+
+  .website-name {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .tagline {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 30px;
+    font-weight: 300;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid white;
+    border-radius: 50%;
+    margin: 0 auto;
+    animation: spin 1s linear infinite;
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Your existing styles remain the same */
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -465,20 +591,41 @@
     .expense-actions {
       align-self: flex-end;
     }
+
+    .website-name {
+      font-size: 2.5rem;
+    }
+
+    .tagline {
+      font-size: 1rem;
+    }
   }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  let monthlyChart, categoryChart;
-
+  // Loading screen functionality
   document.addEventListener("DOMContentLoaded", function () {
-    // Initialize dashboard
-    loadDashboardStats();
-    loadCharts();
-    loadAIInsights();
-    loadRecentActivity();
+    // Show loading screen initially
+    const loadingScreen = document.getElementById("loadingScreen");
+    const dashboardContent = document.getElementById("dashboardContent");
+
+    // Simulate loading time (you can remove this in production)
+    setTimeout(() => {
+      loadingScreen.style.opacity = "0";
+      loadingScreen.style.visibility = "hidden";
+      dashboardContent.style.display = "block";
+
+      // Initialize dashboard after loading
+      loadDashboardStats();
+      loadCharts();
+      loadAIInsights();
+      loadRecentActivity();
+    }, 2000); // 2 second loading time
   });
+
+  // Rest of your existing JavaScript functions remain the same
+  let monthlyChart, categoryChart;
 
   async function loadDashboardStats() {
     try {
